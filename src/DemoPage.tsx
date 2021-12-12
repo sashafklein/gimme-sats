@@ -227,7 +227,8 @@ const DemoPage = () => {
             <ContentDiv>
               <Inline style={{ marginBottom: 20 }}>
                 <a
-                  href="https://github.com/sashafklein/gimmesats"
+                  target="_blank"
+                  href="https://github.com/sashafklein/gimme-sats"
                   style={{ color: "black" }}
                 >
                   <h2>Check the project out on Github</h2>

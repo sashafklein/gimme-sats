@@ -26,6 +26,15 @@ interface Props extends IncompleteContext {
  */
 const GimmeSats = (props: Props) => {
   const { tone, theme } = props;
+  const succinctProps = Object.keys(props)
+    .reduce((obj, key) => 
+      // @ts-ignore
+      props[key] === undefined 
+        ? obj 
+        // @ts-ignore
+        : { ...obj, [key]: props[key] }, 
+      {});
+
   return (
     <GMSContext.Consumer>
       {({ actions, context }) => {
@@ -48,7 +57,7 @@ const GimmeSats = (props: Props) => {
             onClick={() => {
               actions.update({
                 stage: INPUT,
-                ...props,
+                ...succinctProps,
               });
             }}
           >

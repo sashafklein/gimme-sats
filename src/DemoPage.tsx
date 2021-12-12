@@ -222,13 +222,12 @@ const DemoPage = () => {
           <Container>
             <DarkTitle>Open-source and service-agnostic</DarkTitle>
             <DarkSubtitle>
-              Accepts payment from any Lightning wallet, via a variety of
-              protocols.
+              Accepts payment from any Lightning wallet. Soon to invoice using the service of your choice
             </DarkSubtitle>
             <ContentDiv>
               <Inline style={{ marginBottom: 20 }}>
                 <a
-                  href="github.com/sashafklein/gimmesats"
+                  href="https://github.com/sashafklein/gimmesats"
                   style={{ color: "black" }}
                 >
                   <h2>Check the project out on Github</h2>

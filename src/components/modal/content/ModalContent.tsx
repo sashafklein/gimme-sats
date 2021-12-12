@@ -1,10 +1,12 @@
-import styled, { css, keyframes, StyledComponent } from "styled-components";
+import { lighten } from "polished";
+import styled, { keyframes, StyledComponent } from "styled-components";
 import Button from "../../Button";
 
 // Adds a className to an element,
 // To make it to debug and override styles
-const namedEl = (className: string, StyledDiv: StyledComponent<any, any>) => (props: any) =>
-  <StyledDiv className={`gms__${className}`} {...props} />;
+const namedEl =
+  (className: string, StyledDiv: StyledComponent<any, any>) => (props: any) =>
+    <StyledDiv className={`gms__${className}`} {...props} />;
 
 export const ModalWindow = namedEl(
   "modal-window",
@@ -17,7 +19,7 @@ export const ModalWindow = namedEl(
     cursor: pointer;
     top: 0;
     left: 0;
-    display: ${({ show }: { show: Boolean }) => show ? 'block' : 'none'};
+    display: ${({ show }: { show: Boolean }) => (show ? "block" : "none")};
   `
 );
 
@@ -32,7 +34,12 @@ export const ModalScreen = namedEl(
     align-items: center;
     transition: background-color 1s ease;
     position: absolute;
-    background-color: rgba(0, 0, 0, ${({ show }: { show: Boolean }) => show ? '0.6' : '0'});
+    background-color: rgba(
+      0,
+      0,
+      0,
+      ${({ show }: { show: Boolean }) => (show ? "0.8" : "0")}
+    );
   `
 );
 
@@ -40,14 +47,17 @@ export const ModalCard = namedEl(
   "modal-card",
   styled.div`
     width: 90%;
-    height: 90%;
-    max-width: 500px;
-    max-height: 600px;
-    border-radius: 15px;
-    background-color: ${({ theme }) => theme.med};
+    height: 80%;
+    max-width: 400px;
+    min-height: 500px;
+    border-radius: 20px;
+    background-color: ${({ theme }) =>
+      theme.isDark ? theme.dark : theme.light};
     padding: 20px;
+    cursor: auto;
     transition: opacity 0.5s ease;
-    opacity: ${({ show }: { show: Boolean}) => (show ? 1 : 0)};
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+    opacity: ${({ show }: { show: Boolean }) => (show ? 1 : 0)};
   `
 );
 
@@ -100,19 +110,24 @@ export const NumberInput = styled.input`
   max-width: 100%;
   border: none;
   text-align: center;
+  background-color: ${({ theme }) =>
+    theme.isDark ? "white" : lighten(0.2, theme.med)};
 `;
 
 export const TextArea = styled.textarea`
   padding: 10px;
   border-radius: 10px;
-  width: 400px;
   font-size: 18px;
   max-width: 100%;
   border: none;
   margin-top: 10px;
+  background-color: ${({ theme }) =>
+    theme.isDark ? "white" : lighten(0.2, theme.med)};
 `;
 
 export const H1 = styled.h1`
+  font-size: 38px;
+  font-weight: bold;
   color: ${({ theme }) => (theme.isDark ? "white" : "black")};
 `;
 
@@ -161,7 +176,8 @@ export const Spinner = namedEl(
   styled.div`
     width: 40px;
     height: 40px;
-    border: 5px solid ${({ theme }) => theme.light};
+    border: 5px solid
+      ${({ theme }) => (theme.isDark ? theme.light : theme.dark)};
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;

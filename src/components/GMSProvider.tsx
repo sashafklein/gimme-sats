@@ -1,7 +1,7 @@
 import { ReactChild, useState } from "react";
 import { ThemeProvider } from "styled-components";
 
-import { DARK_BLUE, STRIKE, THEME_REQUIREMENTS } from "../const";
+import { DARK_BLUE, STRIKE, THEME_REQUIREMENTS, THEMES } from "../const";
 import { Actions, ColorTheme, Context } from "../types";
 
 import GMSContext from "./GMSContext";
@@ -15,45 +15,52 @@ const validateAndDefault = (context: Context) => {
     context.amount = context.fixedAmount;
   }
 
+  if (context.defaultAmount && !context.amount) {
+    context.amount = context.defaultAmount;
+  }
+
   if (context.fixedNote && !context.note) {
     context.note = context.fixedNote;
+  }
+
+  if (context.defaultNote && !context.note) {
+    context.note = context.defaultNote;
   }
 
   return context;
 };
 
 interface Props {
+  /** The single React component to render within this context. (Your app) */
   children: ReactChild;
+  /** An object of type ColorTheme. Either a provided theme or a custom object of identical shape. */
   theme?: ColorTheme;
-  service: string;
+  /** One of the acceptable API Service types. (Currently, just Strike). */
+  service?: string;
+  /** The unique identifier of the payee in the given service. */
   to: string;
+  /** Any additional global defaults for a GimmeSats button. */
   defaults?: Context;
 }
 
-const themes = {
-  [DARK_BLUE]: {
-    dark: "#050c3e",
-    med: "#040e5c",
-    light: "#326fbb",
-    isDark: true,
-  },
-};
-
 const GMSProvider = (props: Props) => {
   const {
-  children,
-  theme = themes[DARK_BLUE],
-  service,
-  defaults,
-  to,
-} = props;
+    children,
+    theme = THEMES[DARK_BLUE],
+    service = STRIKE,
+    defaults,
+    to,
+  } = props;
   const fullDefaults = {
     ...(defaults || {}),
     service,
     to,
+    theme,
   };
-  // @ts-ignore
-  const missingReqs = THEME_REQUIREMENTS.filter((key) => !theme[key]);
+  const missingReqs = THEME_REQUIREMENTS.filter(
+    // @ts-ignore
+    (key) => theme[key] === undefined
+  );
   if (!theme || missingReqs.length) {
     throw new Error(
       `Bad GMS Theme. Does not include all requirements.

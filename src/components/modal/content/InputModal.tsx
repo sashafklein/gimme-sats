@@ -28,7 +28,7 @@ const Row = styled.div`
  *
  * Takes user input, and creates invoice.
  */
-const InputModalContent = (props: { context: Context, actions: Actions }) => {
+const InputModalContent = (props: { context: Context; actions: Actions }) => {
   const { context, actions } = props;
   const {
     fixedAmount,
@@ -39,8 +39,8 @@ const InputModalContent = (props: { context: Context, actions: Actions }) => {
     note,
     amount,
   } = context;
-  const [amountApproved, setAmountApproved] = useState(fixedAmount);
-  const [noteApproved, setNoteApproved] = useState(fixedNote);
+  const [amountApproved, setAmountApproved] = useState(!!fixedAmount);
+  const [noteApproved, setNoteApproved] = useState(!!fixedNote);
   const [amountString, setAmountString] = useState(
     (fixedAmount || defaultAmount)?.toFixed(2) || "0.00"
   );
@@ -55,7 +55,9 @@ const InputModalContent = (props: { context: Context, actions: Actions }) => {
     // Only change text if it matches basic numerical regex w two decimals
     if (reg.test(value)) {
       // Get rid of any extra leading zeros
-      const newAmountStr = value.replace(/^0+\d+/, (match: string) => match.slice(1));
+      const newAmountStr = value.replace(/^0+\d+/, (match: string) =>
+        match.slice(1)
+      );
 
       // Update internal number-string to maintain text consistency
       if (newAmountStr !== amountString) {
@@ -75,8 +77,8 @@ const InputModalContent = (props: { context: Context, actions: Actions }) => {
     if (!amountApproved) {
       return (
         <ActionButton
-          tone="dark"
-          onClick={setAmountApproved}
+          tone="med"
+          onClick={() => setAmountApproved(true)}
           disabled={!amount}
         >
           Next
@@ -85,8 +87,8 @@ const InputModalContent = (props: { context: Context, actions: Actions }) => {
     } else if (!noteApproved) {
       return (
         <ActionButton
-          tone="dark"
-          onClick={setNoteApproved}
+          tone="med"
+          onClick={() => setNoteApproved(true)}
           disabled={!note?.length}
         >
           Next
@@ -94,7 +96,7 @@ const InputModalContent = (props: { context: Context, actions: Actions }) => {
       );
     } else {
       return (
-        <ActionButton tone="dark" onClick={api.getInvoiceAndUpdateApp}>
+        <ActionButton tone="med" onClick={api.getInvoiceAndUpdateApp}>
           Get invoice
         </ActionButton>
       );
@@ -116,7 +118,15 @@ const InputModalContent = (props: { context: Context, actions: Actions }) => {
             <H2>Enter an amount</H2>
             <Row style={{ marginLeft: -20 }}>
               <H2 style={{ marginRight: "10px" }}>$</H2>
-              <NumberInput value={amountString} onChange={handleNumInput} />
+              <NumberInput
+                value={amountString}
+                onChange={handleNumInput}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter" && amount !== 0) {
+                    setAmountApproved(true);
+                  }
+                }}
+              />
             </Row>
           </>
         )}

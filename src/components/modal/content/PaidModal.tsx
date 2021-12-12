@@ -1,10 +1,4 @@
-import { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
-import styled from "styled-components";
-
-import API from "../../../api";
-import { EXPIRED } from "../../../const";
-import { Context, Actions, ColorTheme, Invoice } from "../../../types";
+import { Context, Actions } from "../../../types";
 import Checkmark from "./Checkmark";
 
 import {
@@ -14,17 +8,12 @@ import {
   ActionButton,
   ModalHeader,
   H1,
-  P,
   H3,
-  H2,
 } from "./ModalContent";
 
-const PaidModal = (props: { context: Context, actions: Actions }) => {
+const PaidModal = (props: { context: Context; actions: Actions }) => {
   const { context, actions } = props;
-  const {
-    amount,
-    note,
-  } = context;
+  const { amount } = context;
   return (
     <ModalContent>
       <ModalHeader>

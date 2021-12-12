@@ -1,5 +1,5 @@
-import styled, { keyframes } from 'styled-components'
-import { ColorTheme } from '../../../types';
+import styled, { keyframes } from "styled-components";
+import { ColorTheme } from "../../../types";
 
 // Taken from https://stackoverflow.com/questions/41078478/css-animated-checkmark
 
@@ -20,7 +20,7 @@ const scale = keyframes`
 
 const fill = (theme: ColorTheme) => keyframes`
   100% {
-    box-shadow: inset 0px 0px 0px 80px ${theme.light};
+    box-shadow: inset 0px 0px 0px 80px ${theme.accent};
   }
 `;
 
@@ -29,7 +29,7 @@ const CheckmarkCircle = styled.circle`
   stroke-dashoffset: 216;
   stroke-width: 2;
   stroke-miterlimit: 10;
-  stroke: ${({ theme }) => theme.light};
+  stroke: ${({ theme }) => theme.accent};
   fill: none;
   animation: ${stroke} 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 `;
@@ -43,8 +43,9 @@ const CheckmarkSvg = styled.svg`
   stroke: #fff;
   stroke-miterlimit: 10;
   margin: 10% auto;
-  box-shadow: inset 0px 0px 0px ${({ theme }) => theme.light};
-  animation: ${({ theme }) => fill(theme)} .4s ease-in-out .4s forwards, ${scale} .3s ease-in-out .9s both;
+  box-shadow: inset 0px 0px 0px ${({ theme }) => theme.accent};
+  animation: ${({ theme }) => fill(theme)} 0.4s ease-in-out 0.4s forwards,
+    ${scale} 0.3s ease-in-out 0.9s both;
 `;
 
 const CheckmarkCheck = styled.path`
@@ -55,10 +56,24 @@ const CheckmarkCheck = styled.path`
 `;
 
 const Checkmark = () => (
-  <CheckmarkSvg className="gms__checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-    <CheckmarkCircle className="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-    <CheckmarkCheck className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+  <CheckmarkSvg
+    className="gms__checkmark"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 52 52"
+  >
+    <CheckmarkCircle
+      className="checkmark__circle"
+      cx="26"
+      cy="26"
+      r="25"
+      fill="none"
+    />
+    <CheckmarkCheck
+      className="checkmark__check"
+      fill="none"
+      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+    />
   </CheckmarkSvg>
-)
+);
 
 export default Checkmark;

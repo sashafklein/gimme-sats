@@ -1,4 +1,4 @@
-export type Invoice = {
+export interface Invoice {
   /** Lightning invoice string. */
   lnInvoice: string;
   /** Onchain Bitcoin invoice string (if given). */
@@ -11,7 +11,7 @@ export type Invoice = {
   status?: string;
 }
 
-export type Context = {
+export interface IncompleteContext {
   /** Amount set prior to button click, which user cannot override. */
   fixedAmount?: number;
   /** Note set prior to button click, which user cannot override. */
@@ -25,16 +25,24 @@ export type Context = {
   /** The current payment note. */
   note?: string;
   /** Identifying string for recipient. Varies by API service. */
+  to?: string;
+  /** API service name. Must be one of the constants included in this repository. */
+  service?: string,
+  /** Optional callback run on successful payment. Given context and actions as arguments. */
+  onPayment?(context: Context, actions: Actions): Function;
+  /** Stage of the purchase flow. Must be one of the constants included in this repository. */
+  stage?: string;
+  /** Color theme for the button and modal. */
+  theme?: ColorTheme;
+  /** An invoice object received from the API. */
+  invoice?: Invoice
+}
+
+export interface Context extends IncompleteContext {
+  /** Identifying string for recipient. Varies by API service. */
   to: string;
   /** API service name. Must be one of the constants included in this repository. */
   service: string,
-  // serviceOptions: any;
-  // showExpiry: Boolean;
-  onPayment?: Function;
-  /** An object containing invoice details. */
-  invoice?: Invoice;
-  /** Stage of the purchase flow. Must be one of the constants included in this repository. */
-  stage?: string;
 }
 
 export type Actions = {
@@ -42,9 +50,10 @@ export type Actions = {
   update(arg0?: object): () => {};
 }
 
-export type ColorTheme = {
-  bg: string;
+export interface ColorTheme {
   dark: string;
   light: string;
+  med: string;
+  accent: string;
   isDark: Boolean;
 }

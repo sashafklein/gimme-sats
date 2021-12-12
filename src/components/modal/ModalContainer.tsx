@@ -1,5 +1,4 @@
 import React, { ReactChild } from "react";
-import styled from "styled-components";
 
 import {
   INPUT,
@@ -10,7 +9,7 @@ import {
   LOADING,
 } from "../../const";
 import GMSContext from "../GMSContext";
-import { Actions, Context } from '../../types';
+import { Actions, Context } from "../../types";
 
 import InputModal from "./content/InputModal";
 import InvoiceModal from "./content/InvoiceModal";
@@ -34,7 +33,8 @@ const ModalContainer = (props: { children: ReactChild }) => {
   return (
     <GMSContext.Consumer>
       {(queryProps) => {
-        const { context, actions }: { context: Context, actions: Actions } = queryProps;
+        const { context, actions }: { context: Context; actions: Actions } =
+          queryProps;
         const { children } = props;
         const stage = context.stage as string;
 

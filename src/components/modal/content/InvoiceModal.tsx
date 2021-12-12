@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import QRCode from "react-qr-code";
 import styled from "styled-components";
 
 import API from "../../../api";
 import { EXPIRED } from "../../../const";
-import { Context, Actions, ColorTheme, Invoice } from "../../../types";
+import { Context, Actions, Invoice } from "../../../types";
 
 import {
   ModalActions,
@@ -14,11 +14,10 @@ import {
   ModalHeader,
   H1,
   P,
-  H3,
 } from "./ModalContent";
 
 const QRWrap = styled.div`
-  background-color: ${({ theme }) => (theme.isDark ? "white" : "black")};
+  background-color: ${({ theme }) => (theme.isDark ? "white" : "white")};
   padding: 20px;
   border-radius: 10px;
 `;
@@ -30,14 +29,9 @@ const Expired = styled.div`
   border-radius: 5px;
 `;
 
-const InvoiceModal = (props: { context: Context, actions: Actions }) => {
+const InvoiceModal = (props: { context: Context; actions: Actions }) => {
   const { context, actions } = props;
-  const {
-    amount,
-    note,
-    stage,
-    invoice,
-  } = context;
+  const { amount, note, stage, invoice } = context;
   const api = new API(context, actions);
   const { secondsLeft, lnInvoice } = invoice as Invoice;
 
@@ -70,17 +64,25 @@ const InvoiceModal = (props: { context: Context, actions: Actions }) => {
       </ModalHeader>
       <ModalBody>
         <QRWrap>
-          { stage === EXPIRED ? <Expired /> : <QRCode value={invoiceString} size={180} /> }
+          {stage === EXPIRED ? (
+            <Expired />
+          ) : (
+            <QRCode value={invoiceString} size={180} />
+          )}
         </QRWrap>
-        <P>{ stage === EXPIRED ? 'Expired' : `Expires in ${secondsLeft}` }</P>
+        <P>{stage === EXPIRED ? "Expired" : `Expires in ${secondsLeft}`}</P>
       </ModalBody>
 
       <ModalActions>
         <ActionButton
-          tone="dark"
-          onClick={stage === EXPIRED ? api.getInvoiceAndUpdateApp : () => navigator.clipboard.writeText(invoiceString) }
-          >
-          { stage === EXPIRED ? 'Refresh' : 'Copy' }
+          tone="med"
+          onClick={
+            stage === EXPIRED
+              ? api.getInvoiceAndUpdateApp
+              : () => navigator.clipboard.writeText(invoiceString)
+          }
+        >
+          {stage === EXPIRED ? "Refresh" : "Copy"}
         </ActionButton>
         <ActionButton tone="light" onClick={actions.reset}>
           Cancel

@@ -5,8 +5,6 @@ const Button = (props: any) => {
   const { tone, disabled } = props;
 
   const Btn = styled.button`
-    width: 100%;
-    max-width: 200px;
     padding: 15px 25px;
     border-radius: 10px;
     border: none;

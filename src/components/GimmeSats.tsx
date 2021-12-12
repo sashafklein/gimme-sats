@@ -69,4 +69,17 @@ const GimmeSats = (props: Props) => {
   );
 };
 
+export const GimmeSatsWithBolt = (props: Props) => (
+  <GimmeSats {...props}>
+    <>
+      { props.children }
+      <Bolt
+        width={10}
+        style={{ marginLeft: 15 }}
+        fill={"#ffe37c"}
+      />
+    </>
+  </GimmeSats>
+)
+
 export default GimmeSats;

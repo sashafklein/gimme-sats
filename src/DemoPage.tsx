@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import GimmeSats from "./components/GimmeSats";
+import GimmeSats, { GimmeSatsWithBolt } from "./components/GimmeSats";
 
 import GMSProvider from "./components/GMSProvider";
 import Bolt from "./components/icons/Bolt";
@@ -238,9 +238,14 @@ const DemoPage = () => {
               <Inline>
                 <h2 style={{ marginRight: 10 }}>
                   {" "}
-                  Appreciate the work? You can always
+                  Like this tool?
                 </h2>
-                <GimmeSats />
+                <GimmeSatsWithBolt 
+                  defaultNote="Tip for GimmeSats!" 
+                  defaultAmount={5}
+                >
+                  Sats Appreciated
+                </GimmeSatsWithBolt>
               </Inline>
             </ContentDiv>
           </Container>

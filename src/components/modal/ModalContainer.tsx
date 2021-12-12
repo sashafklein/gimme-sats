@@ -8,7 +8,6 @@ import InputModal from "./content/InputModal";
 import InvoiceModal from "./content/InvoiceModal";
 import { ModalScreen, ModalWindow, ModalCard } from "./content/ModalContent";
 import LoadingModal from "./content/LoadingModal";
-import ErrorModal from "./content/ErrorModal";
 import PaidModal from "./content/PaidModal";
 
 const isDescendant = (child: HTMLElement, parentClass: string) => {

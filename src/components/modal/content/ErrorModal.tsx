@@ -1,7 +1,7 @@
 import { Actions } from "../../../types";
 import { ModalContent, ModalBody, ModalActions, ModalHeader, H1, H3, ActionButton } from "./ModalContent";
 
-const ErrorModel = (props: { actions: Actions }) => {
+const ErrorModal = (props: { actions: Actions }) => {
   const { actions } = props;
   return (
     <ModalContent>
@@ -18,4 +18,4 @@ const ErrorModel = (props: { actions: Actions }) => {
   );
 };
 
-export default ErrorModel;
+export default ErrorModal;

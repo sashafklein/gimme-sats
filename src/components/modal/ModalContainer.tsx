@@ -17,6 +17,7 @@ import InvoiceModal from "./content/InvoiceModal";
 import { ModalScreen, ModalWindow, ModalCard } from "./content/ModalContent";
 import LoadingModal from "./content/LoadingModal";
 import ErrorModal from "./content/ErrorModal";
+import PaidModal from "./content/PaidModal";
 
 const isDescendant = (child: HTMLElement, parentClass: string) => {
   let node = child.parentNode as HTMLElement | null;
@@ -46,7 +47,7 @@ const ModalContainer = (props: { children: ReactChild }) => {
             [LOADING]: LoadingModal,
             [INVOICE]: InvoiceModal,
             [EXPIRED]: InvoiceModal,
-            [PAID]: ErrorModal, //"PAID",
+            [PAID]: PaidModal,
             [CONFIRM_REPAY]: ErrorModal, //"CONFIRM_REPAY",
           }[stage] || ErrorModal;
 

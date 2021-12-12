@@ -3,7 +3,7 @@ import styled, { keyframes, StyledComponent } from "styled-components";
 import Button from "../../Button";
 
 // Adds a className to an element,
-// To make it to debug and override styles
+// To make it easier to debug and override styles
 const namedEl =
   (className: string, StyledDiv: StyledComponent<any, any>) => (props: any) =>
     <StyledDiv className={`gms__${className}`} {...props} />;
@@ -19,7 +19,7 @@ export const ModalWindow = namedEl(
     cursor: pointer;
     top: 0;
     left: 0;
-    display: ${({ show }: { show: Boolean }) => (show ? "block" : "none")};
+    pointer-events: ${({ show }: { show: Boolean }) => (show ? "all" : "none")};
   `
 );
 
@@ -32,7 +32,7 @@ export const ModalScreen = namedEl(
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: background-color 1s ease;
+    transition: background-color 0.4s ease;
     position: absolute;
     background-color: rgba(
       0,
@@ -55,7 +55,7 @@ export const ModalCard = namedEl(
       theme.isDark ? theme.dark : theme.light};
     padding: 20px;
     cursor: auto;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.3s ease;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
     opacity: ${({ show }: { show: Boolean }) => (show ? 1 : 0)};
   `
@@ -110,6 +110,7 @@ export const NumberInput = styled.input`
   max-width: 100%;
   border: none;
   text-align: center;
+  font-weight: bold;
   background-color: ${({ theme }) =>
     theme.isDark ? "white" : lighten(0.2, theme.med)};
 `;

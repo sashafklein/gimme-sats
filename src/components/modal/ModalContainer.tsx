@@ -1,13 +1,6 @@
 import React, { ReactChild } from "react";
 
-import {
-  INPUT,
-  INVOICE,
-  EXPIRED,
-  PAID,
-  CONFIRM_REPAY,
-  LOADING,
-} from "../../const";
+import { INPUT, INVOICE, EXPIRED, PAID, LOADING } from "../../const";
 import GMSContext from "../GMSContext";
 import { Actions, Context } from "../../types";
 
@@ -36,10 +29,10 @@ const ModalContainer = (props: { children: ReactChild }) => {
         const { context, actions }: { context: Context; actions: Actions } =
           queryProps;
         const { children } = props;
-        const stage = context.stage as string;
 
-        console.log(context, stage);
+        const stage = context.stage as string;
         const show = !!stage;
+        console.log(stage, context);
 
         const Content =
           {
@@ -48,8 +41,7 @@ const ModalContainer = (props: { children: ReactChild }) => {
             [INVOICE]: InvoiceModal,
             [EXPIRED]: InvoiceModal,
             [PAID]: PaidModal,
-            [CONFIRM_REPAY]: ErrorModal, //"CONFIRM_REPAY",
-          }[stage] || ErrorModal;
+          }[stage] || (() => null);
 
         const closeModal = (event: React.MouseEvent<HTMLButtonElement>) => {
           // If the click was not within the card, close the modal.

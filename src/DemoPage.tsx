@@ -199,6 +199,7 @@ const DemoPage = () => {
               <div style={{ padding: "20px 0", marginBottom: 20 }}>
                 {Object.keys(tickedOptions).map((key) => (
                   <CheckboxContainer
+                    key={key}
                     onClick={() => {
                       setTickedOptions({
                         ...tickedOptions,
@@ -222,12 +223,14 @@ const DemoPage = () => {
           <Container>
             <DarkTitle>Open-source and service-agnostic</DarkTitle>
             <DarkSubtitle>
-              Accepts payment from any Lightning wallet. Soon to invoice using the service of your choice
+              Accepts payment from any Lightning wallet. Soon to invoice using
+              the service of your choice
             </DarkSubtitle>
             <ContentDiv>
               <Inline style={{ marginBottom: 20 }}>
                 <a
                   target="_blank"
+                  rel="noreferrer"
                   href="https://github.com/sashafklein/gimme-sats"
                   style={{ color: "black" }}
                 >
@@ -236,12 +239,9 @@ const DemoPage = () => {
                 <Github width={30} style={{ marginLeft: 10 }} />
               </Inline>
               <Inline>
-                <h2 style={{ marginRight: 10 }}>
-                  {" "}
-                  Like this tool?
-                </h2>
-                <GimmeSatsWithBolt 
-                  defaultNote="Tip for GimmeSats!" 
+                <h2 style={{ marginRight: 10 }}> Like this tool?</h2>
+                <GimmeSatsWithBolt
+                  defaultNote="Tip for GimmeSats!"
                   defaultAmount={5}
                 >
                   Sats Appreciated

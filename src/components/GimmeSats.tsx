@@ -26,14 +26,15 @@ interface Props extends IncompleteContext {
  */
 const GimmeSats = (props: Props) => {
   const { tone, theme } = props;
-  const succinctProps = Object.keys(props)
-    .reduce((obj, key) => 
+  const succinctProps = Object.keys(props).reduce(
+    (obj, key) =>
       // @ts-ignore
-      props[key] === undefined 
-        ? obj 
-        // @ts-ignore
-        : { ...obj, [key]: props[key] }, 
-      {});
+      props[key] === undefined
+        ? obj
+        : // @ts-ignore
+          { ...obj, [key]: props[key] },
+    {}
+  );
 
   return (
     <GMSContext.Consumer>
@@ -55,6 +56,7 @@ const GimmeSats = (props: Props) => {
             isDark={tone !== "light"}
             theme={theme}
             onClick={() => {
+              console.log("UY");
               actions.update({
                 stage: INPUT,
                 ...succinctProps,
@@ -71,15 +73,15 @@ const GimmeSats = (props: Props) => {
 
 export const GimmeSatsWithBolt = (props: Props) => (
   <GimmeSats {...props}>
-    <>
-      { props.children }
+    <SvgButtonContent>
+      {props.children}
       <Bolt
         width={10}
-        style={{ marginLeft: 15 }}
+        style={{ marginLeft: props.children ? 15 : 0 }}
         fill={"#ffe37c"}
       />
-    </>
+    </SvgButtonContent>
   </GimmeSats>
-)
+);
 
 export default GimmeSats;

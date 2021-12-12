@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# Gimme Sats
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+As set of React components and utilities to simplify accepting Lightning payment in React apps.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+### Installation
 
-### `yarn start`
+### Use
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## What's Included
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Components
 
-### `yarn test`
+### Pay Button
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Options
 
-### `yarn build`
+- FixedAmount: Number
+- FixedNote: String
+- DefaultAmount: Number
+- DefaultNote: String
+- RequireNote: Boolean
+- Handle: String
+- Service: Strike | Zebedee
+- ShowIcon: Boolean
+- Options: Object
+- Children: Any (usually: "Gimme Sats[]")
+- ShowExpiry: Boolean
+- OnPayment
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Future options
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Currency: String (USD, BTC, sats, millisats)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```jsx
+<SatsButton showIcon={true}>Tip Me On Strike!</SatsButton>
+```
 
-### `yarn eject`
+### Pay Card
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Utilities
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Gimme Components
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  Util generates components in one file based on configuration:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  ```jsx
+  import { gimmeComponents, STRIKE } from 'gimme-sats';
+  const { SatsButton, SatsCard } = gimmeComponents(STRIKE, { fixedNote: 'Pay me on Strike', handle: 'sasha' });
+  export SatsButton;
+  export SatsCard;
+  ```
 
-## Learn More
+- Stylesheet (default styles, separate for each component)
+- API
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+import { Strike } from "gimme-sats";
+Strike.getInvoice(name, amount, description);
+Strike.checkInvoice(invoiceId, onPayment, nearExpiration, renewalThreshold);
+Strike.renewInvoice(invoiceId); // Would this not just get a new invoice?
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Roadmap
 
-### Code Splitting
+- Foolproof payment at moment of expiry
+- Allow users to choose input currencies
+- Show sats / bitcoin when paying BTC
+- Display cart - Allow users to pass cart of items to button to display alongside (potentially a different component, given that amount and description would be fixed)
+- Take Paynym and check BTC payment somehow?
+- Paylink -- Link to GimmeSats.com/strike/sasha?amount=40&description=Blah
+- Custom paylinks which obscure details (needs user database)
+- Styling - Make base block class selectable (now defaults to "gms")
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contribution
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+I'm all pull requests!

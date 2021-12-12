@@ -1,4 +1,4 @@
-# Gimme Sats
+# Gimme Sats ⚡️
 
 A set of React components and utilities to make accepting Lightning payments in React apps dead simple. The core library consists of a `GMSProvider`, which wraps the application, and a `GimmeSats` button which can then be rendered throughout the app. The latter triggers an interface -- fully themeable and customizable -- for generating a lightning invoice with your favorite service provider and accepting payment.
 
@@ -17,16 +17,16 @@ yarn add gimme-sats
 First, set up the provider, choosing the theme and global service. (Currently, Gimme Sats only works with Strike).
 
 ```jsx
-import { GMSProvider, themes, services } from 'gimme-sats';
+import { GMSProvider, themes, services } from "gimme-sats";
 
-<GMSProvider 
-  theme={themes.DARK_BLUE} 
-  services={services.STRIKE} 
+<GMSProvider
+  theme={themes.DARK_BLUE}
+  services={services.STRIKE}
   // Here, "to" is the Strike handle
   to="sasha"
 >
   <App />
-</GMSProvider>
+</GMSProvider>;
 ```
 
 Then incorporate the GimmeSats button in your app to trigger a payment interface:
@@ -100,7 +100,7 @@ By default, the button says "Gimme Sats" and includes a lightning bolt. Visuals 
 This library exports several constant objects:
 
 - **services** - A list of supported services to choose between for generating and checking on the invoice.
-- **themes** - A list of preexisting theme objects. 
+- **themes** - A list of preexisting theme objects.
 - **stages** - A list of constants determining the stage of the payment process. You are only likely to use these if you add an `onPayment` callback.
 
 ## Theming
@@ -124,9 +124,9 @@ I'll look into offering better theming in the future.
 
 ### Version 2.0
 
-I believe a version 2 could be made to include a cart. This cart would track SKUs in context, and then generate amount and description automatically from these items. The interface would then show the items in the cart, and allow the user to confirm and view/pay an invoice for the cart. The description for this invoice would include data (human-readable or computer-readable?) about the purchase. 
+I believe a version 2 could be made to include a cart. This cart would track SKUs in context, and then generate amount and description automatically from these items. The interface would then show the items in the cart, and allow the user to confirm and view/pay an invoice for the cart. The description for this invoice would include data (human-readable or computer-readable?) about the purchase.
 
-Before doing this, research LNURL and any protocols that might affect functionality here. 
+Before doing this, research LNURL and any protocols that might affect functionality here.
 
 ### Nice-to-Haves
 

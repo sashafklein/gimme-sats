@@ -1,6 +1,6 @@
 # Gimme Sats
 
-As set of React components and utilities to make accepting Lightning payments in React apps dead simple. The core library consists of a `GMSProvider`, which wraps the application, and a `GimmeSats` button which can then be rendered throughout the app. The latter triggers an interface -- fully themeable and customizable -- for generating a lightning invoice with your favorite service provider and accepting payment.
+A set of React components and utilities to make accepting Lightning payments in React apps dead simple. The core library consists of a `GMSProvider`, which wraps the application, and a `GimmeSats` button which can then be rendered throughout the app. The latter triggers an interface -- fully themeable and customizable -- for generating a lightning invoice with your favorite service provider and accepting payment.
 
 In two minutes, you can add Lightning tips on your React site.
 
@@ -122,7 +122,7 @@ I'll look into offering better theming in the future.
 - [ ] Add alternatives to Strike
 - [ ] Ensure valid identifier before attempting to create invoice
 
-### Version 2.2
+### Version 2.0
 
 I believe a version 2 could be made to include a cart. This cart would track SKUs in context, and then generate amount and description automatically from these items. The interface would then show the items in the cart, and allow the user to confirm and view/pay an invoice for the cart. The description for this invoice would include data (human-readable or computer-readable?) about the purchase. 
 

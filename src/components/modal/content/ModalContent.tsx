@@ -1,4 +1,3 @@
-import { lighten } from "polished";
 import styled, { keyframes, StyledComponent } from "styled-components";
 import Button from "../../Button";
 

@@ -137,4 +137,4 @@ Before doing this, research LNURL and any protocols that might affect functional
 
 ## Contributing
 
-I'd love help on this
+I'd love help on this. Feel encouraged to raise an issue, fork and PR, or just reach out.

@@ -84,4 +84,8 @@ export const GimmeSatsWithBolt = (props: Props) => (
   </GimmeSats>
 );
 
+export const GimmeSatsSmall = styled(GimmeSats)`
+  padding: 5px;
+`;
+
 export default GimmeSats;

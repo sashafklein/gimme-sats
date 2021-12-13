@@ -135,6 +135,7 @@ Before doing this, research LNURL and any protocols that might affect functional
 - [ ] Handle Paynyms?
 - [ ] Variety of premade GimmeSats button styles
 - [ ] Investigate integration into libraries like Gatsby?
+- [ ] Build as framework-agnostic vanilla-JS library?
 
 ## Contributing
 

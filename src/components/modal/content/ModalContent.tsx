@@ -111,8 +111,8 @@ export const NumberInput = styled.input`
   border: none;
   text-align: center;
   font-weight: bold;
-  background-color: ${({ theme }) =>
-    theme.isDark ? "white" : lighten(0.2, theme.med)};
+  border: 6px solid transparent;
+  border-color: ${({ theme }) => (theme.isDark ? "transparent" : "black")};
 `;
 
 export const TextArea = styled.textarea`
@@ -122,8 +122,8 @@ export const TextArea = styled.textarea`
   max-width: 100%;
   border: none;
   margin-top: 10px;
-  background-color: ${({ theme }) =>
-    theme.isDark ? "white" : lighten(0.2, theme.med)};
+  border: 6px solid transparent;
+  border-color: ${({ theme }) => (theme.isDark ? "transparent" : "black")};
 `;
 
 export const H1 = styled.h1`

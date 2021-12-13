@@ -5,7 +5,7 @@ export const GMSContext = React.createContext({
   context: {} as Context,
   actions: {
     update: (arg1?: object) => {},
-    reset: () => {}
+    reset: () => {},
   } as Actions,
 });
 

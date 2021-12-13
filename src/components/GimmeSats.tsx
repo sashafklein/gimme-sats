@@ -56,7 +56,6 @@ const GimmeSats = (props: Props) => {
             isDark={tone !== "light"}
             theme={theme}
             onClick={() => {
-              console.log("UY");
               actions.update({
                 stage: INPUT,
                 ...succinctProps,

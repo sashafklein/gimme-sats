@@ -63,7 +63,7 @@ const GMSProvider = (props: Props) => {
   );
   if (!theme || missingReqs.length) {
     throw new Error(
-      `Bad GMS Theme. Does not include all requirements.
+      `Bad GimmeSats Theme. Does not include all requirements.
         Missing: ${missingReqs.join(" ")}`
     );
   }

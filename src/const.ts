@@ -6,7 +6,14 @@ export const LOADING = "LOADING";
 export const INVOICE = "INVOICE";
 export const EXPIRED = "EXPIRED";
 export const PAID = "PAID";
-export const CONFIRM_REPAY = "CONFIRM_REPAY";
+
+export const STAGES = {
+  INPUT,
+  LOADING,
+  INVOICE,
+  EXPIRED,
+  PAID
+}
 
 // Color Themes
 export const DARK_BLUE = "dark-blue";
@@ -35,3 +42,7 @@ export const THEME_REQUIREMENTS = ["light", "med", "dark", "accent", "isDark"];
 
 // API Services
 export const STRIKE = "STRIKE";
+
+export const SERVICES = {
+  STRIKE
+}

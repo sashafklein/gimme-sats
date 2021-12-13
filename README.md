@@ -113,7 +113,7 @@ I'll look into offering better theming in the future.
 
 ### Version 1.1
 
-- [ ] Improve styles and add animation
+- [ ] Improve styles and add light animations
 - [ ] Handle unexpected errors smoothly
 - [ ] Add testing (mostly integration and end-to-end)
 - [ ] Add CI and CI badge to Readme
@@ -121,6 +121,7 @@ I'll look into offering better theming in the future.
 - [ ] Add a handful of additional themes
 - [ ] Add alternatives to Strike
 - [ ] Ensure valid identifier before attempting to create invoice
+- [ ] Better delineate between global config and button-specific options, to avoid bugs.
 
 ### Version 2.0
 

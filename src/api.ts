@@ -12,7 +12,8 @@ interface ApiInterface {
 const secondsToExpireEarly = 2;
 
 class Strike implements ApiInterface {
-  static path = (subpath: string) => `https://api.zaphq.io/api/v0.4/public/${subpath}`;
+  static path = (subpath: string) =>
+    `https://api.zaphq.io/api/v0.4/public/${subpath}`;
   context: Context;
 
   constructor(context: Context) {
@@ -20,7 +21,7 @@ class Strike implements ApiInterface {
   }
 
   _invoice() {
-    return this.context.invoice as Invoice
+    return this.context.invoice as Invoice;
   }
 
   getInvoice = async () => {
@@ -41,17 +42,19 @@ class Strike implements ApiInterface {
       lnInvoice: data.lnInvoice,
       secondsLeft: data.expirySecond - secondsToExpireEarly,
       btcInvoice: data.onchainAddress,
-      invoiceId: data.quoteId
+      invoiceId: data.quoteId,
     });
   };
 
   checkForPayment = async () => {
-    const { data } = await axios.get(Strike.path(`receive/${this._invoice().invoiceId}`));
+    const { data } = await axios.get(
+      Strike.path(`receive/${this._invoice().invoiceId}`)
+    );
 
     return Promise.resolve({
       ...this._invoice(),
       secondsLeft: data.expirySecond - secondsToExpireEarly,
-      status: data.result === 'PAID' ? PAID : undefined,
+      status: data.result === "PAID" ? PAID : undefined,
     });
   };
 }
@@ -65,7 +68,7 @@ class API {
   actions: Actions;
   context: Context;
 
-  constructor (context: Context, actions: Actions) {
+  constructor(context: Context, actions: Actions) {
     this.api = API.getInstance(context);
     this.actions = actions;
     this.context = context;
@@ -73,32 +76,28 @@ class API {
 
   getInvoiceAndUpdateApp = () => {
     this.actions.update({ stage: LOADING });
-    return this.api
-      .getInvoice()
-      .then((invoice: Invoice) => {
-        console.log('INVOICE', invoice);
-        this.actions.update({ invoice, stage: INVOICE });
-      });
+    return this.api.getInvoice().then((invoice: Invoice) => {
+      this.actions.update({ invoice, stage: INVOICE });
+    });
   };
 
   checkForPaymentAndUpdateApp = () => {
-    this.api.checkForPayment()
-      .then((invoice: Invoice) => {
-        const newContext = {
-          ...this.context,
-          invoice
-        }
+    this.api.checkForPayment().then((invoice: Invoice) => {
+      const newContext = {
+        ...this.context,
+        invoice,
+      };
 
-        if (invoice.secondsLeft <= 0) {
-          newContext.stage = EXPIRED;
-        }
+      if (invoice.secondsLeft <= 0) {
+        newContext.stage = EXPIRED;
+      }
 
-        if (invoice.status === PAID) {
-          newContext.stage = PAID;
-        }
+      if (invoice.status === PAID) {
+        newContext.stage = PAID;
+      }
 
-        this.actions.update(newContext )
-      })
+      this.actions.update(newContext);
+    });
   };
 
   static getInstance = (context: Context) => {

@@ -1,10 +1,11 @@
 import { ReactChild } from "react";
 import styled from "styled-components";
 
+import { INPUT } from "../const";
+import { ColorTheme, Settings } from "../types";
+
 import GMSContext from "./GMSContext";
 import Button from "./Button";
-import { INPUT } from "../const";
-import { ColorTheme, IncompleteContext } from "../types";
 import Bolt from "./icons/Bolt";
 
 const SvgButtonContent = styled.span`
@@ -13,11 +14,19 @@ const SvgButtonContent = styled.span`
   justify-content: center;
 `;
 
-interface Props extends IncompleteContext {
+interface Props extends Settings {
   children?: ReactChild;
   tone?: string;
-  theme?: ColorTheme;
+  buttonTheme?: ColorTheme;
+  settings?: Settings;
 }
+
+const DefaultChild = () => (
+  <SvgButtonContent>
+    Gimme Sats
+    <Bolt width={10} style={{ marginLeft: 15 }} fill="#ffe37c" />
+  </SvgButtonContent>
+);
 
 /**
  * This component renders a button, which, on click, generates a payment "modal" in a "lightbox".
@@ -25,40 +34,25 @@ interface Props extends IncompleteContext {
  * and confirms payment automatically.
  */
 const GimmeSats = (props: Props) => {
-  const { tone, theme } = props;
-  const succinctProps = Object.keys(props).reduce(
-    (obj, key) =>
-      // @ts-ignore
-      props[key] === undefined
-        ? obj
-        : // @ts-ignore
-          { ...obj, [key]: props[key] },
-    {}
-  );
+  const { tone, settings, buttonTheme } = props;
 
   return (
     <GMSContext.Consumer>
       {({ actions, context }) => {
-        const DefaultChild = () => (
-          <SvgButtonContent>
-            Gimme Sats
-            <Bolt
-              width={10}
-              style={{ marginLeft: 15 }}
-              fill={context?.theme?.accent || "#ffe37c"}
-            />
-          </SvgButtonContent>
-        );
+        const finalSettings = {
+          ...context.globalSettings,
+          ...(settings || {}),
+        };
 
         return (
           <Button
             tone={tone || "dark"}
             isDark={tone !== "light"}
-            theme={theme}
+            theme={buttonTheme || finalSettings.theme}
             onClick={() => {
-              actions.update({
+              actions.updateSettings({
                 stage: INPUT,
-                ...succinctProps,
+                ...finalSettings,
               });
             }}
           >
@@ -77,7 +71,7 @@ export const GimmeSatsWithBolt = (props: Props) => (
       <Bolt
         width={10}
         style={{ marginLeft: props.children ? 15 : 0 }}
-        fill={"#ffe37c"}
+        fill="#ffe37c"
       />
     </SvgButtonContent>
   </GimmeSats>

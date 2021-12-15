@@ -11,44 +11,45 @@ export interface Invoice {
   status?: string;
 }
 
-export interface IncompleteContext {
-  /** Amount set prior to button click, which user cannot override. */
-  fixedAmount?: number;
-  /** Note set prior to button click, which user cannot override. */
-  fixedNote?: string;
-  /** Amount populating the numerical input when the modal opens. Can be overriden */
-  defaultAmount?: number;
-  /** Note populating the text input when the modal opens. Can be overriden. */
-  defaultNote?: string;
-  /** The active amount the user will pay (or has paid), in dollars. */
+export interface Settings {
+  /** Amount to charge. If pre-set, can be 'fixed' or malleable. */
   amount?: number;
-  /** The current payment note. */
+  /** If true, amount is not changeable by user. */
+  amountIsFixed?: Boolean;
+  /** Charge note. Can be 'fixed' or malleable. */
   note?: string;
-  /** Identifying string for recipient. Varies by API service. */
+  /** If true, note is not alterable by user. */
+  noteIsFixed?: Boolean;
+  /** Identifier of payment recipient. Varies based on service. */
   to?: string;
-  /** API service name. Must be one of the constants included in this repository. */
-  service?: string,
-  /** Optional callback run on successful payment. Given context and actions as arguments. */
-  onPayment?(context: Context, actions: Actions): Function;
-  /** Stage of the purchase flow. Must be one of the constants included in this repository. */
-  stage?: string;
+  /** Name to show in place of 'to' value. */
+  displayName?: string;
+  /** Service. API service for generating invoice and receiving payment. Default: STRIKE. */
+  service?: string;
   /** Color theme for the button and modal. */
   theme?: ColorTheme;
-  /** An invoice object received from the API. */
-  invoice?: Invoice
+  /** Stage of the purchase flow. Must be one of the constants included in this repository. */
+  stage?: string;
 }
 
-export interface Context extends IncompleteContext {
-  /** Identifying string for recipient. Varies by API service. */
-  to: string;
-  /** API service name. Must be one of the constants included in this repository. */
-  service: string,
+export interface Context {
+  /** A settings object defining most features of the payment interface. */
+  settings: Settings;
+  /** Optional callback run on successful payment. Given context and actions as arguments. */
+  onPayment?(context: Context, actions: Actions): Function;
+  /** An invoice object received from the API. */
+  invoice?: Invoice;
+  /** Any setting can be applied globally, and overwritten by the triggering button. */
+  globalSettings: Settings;
 }
 
 export type Actions = {
-  reset: () => {};
-  update(arg0?: object): () => {};
-}
+  reset: () => void;
+  updateSettings(settings: Settings): () => void;
+  updateInvoice(invoice: Invoice): () => void;
+  onPayment(context: Context): () => any;
+  update(context: Context): () => any;
+};
 
 export interface ColorTheme {
   dark: string;

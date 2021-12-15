@@ -1,5 +1,14 @@
 import { Actions } from "../../../types";
-import { ModalContent, ModalBody, ModalActions, ModalHeader, H1, H3, ActionButton } from "./ModalContent";
+import {
+  ModalContent,
+  ModalBody,
+  ModalActions,
+  ModalHeader,
+  H1,
+  H3,
+  P,
+  ActionButton,
+} from "./ModalContent";
 
 const ErrorModal = (props: { actions: Actions }) => {
   const { actions } = props;
@@ -10,9 +19,12 @@ const ErrorModal = (props: { actions: Actions }) => {
       </ModalHeader>
       <ModalBody>
         <H3>Something went wrong!</H3>
+        <P>See the console for details.</P>
       </ModalBody>
       <ModalActions>
-        <ActionButton tone="light" onClick={actions.reset}>Cancel</ActionButton>
+        <ActionButton tone="light" onClick={actions.reset}>
+          Cancel
+        </ActionButton>
       </ModalActions>
     </ModalContent>
   );

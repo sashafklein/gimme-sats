@@ -12,8 +12,8 @@ export const STAGES = {
   LOADING,
   INVOICE,
   EXPIRED,
-  PAID
-}
+  PAID,
+};
 
 // Color Themes
 export const DARK_BLUE = "dark-blue";
@@ -26,14 +26,16 @@ export const THEMES = {
     light: "#2784f9",
     accent: "#fed954",
     isDark: true,
+    name: DARK_BLUE,
   } as ColorTheme,
   [WHITE]: {
-    dark: '#181818',
-    med: '#5e5e74',
-    light: 'white',
-    accent: '#ff1a40',
-    isDark: false
-  } as ColorTheme
+    dark: "#181818",
+    med: "#5e5e74",
+    light: "white",
+    accent: "#ff1a40",
+    isDark: false,
+    name: WHITE,
+  } as ColorTheme,
 };
 
 export const THEME_NAMES = Object.keys(THEMES);
@@ -44,5 +46,5 @@ export const THEME_REQUIREMENTS = ["light", "med", "dark", "accent", "isDark"];
 export const STRIKE = "STRIKE";
 
 export const SERVICES = {
-  STRIKE
-}
+  STRIKE,
+};

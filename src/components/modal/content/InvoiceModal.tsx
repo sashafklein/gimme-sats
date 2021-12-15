@@ -5,6 +5,7 @@ import styled from "styled-components";
 import API from "../../../api";
 import { EXPIRED } from "../../../const";
 import { Context, Actions, Invoice } from "../../../types";
+import { getSettings } from "../../../utils";
 
 import {
   ModalActions,
@@ -31,8 +32,11 @@ const Expired = styled.div`
 
 const InvoiceModal = (props: { context: Context; actions: Actions }) => {
   const { context, actions } = props;
-  const { amount, note, stage, invoice } = context;
+  const settings = getSettings(context);
+  const { amount, note, stage } = settings;
+  const { invoice } = context;
   const api = new API(context, actions);
+
   const { secondsLeft, lnInvoice } = invoice as Invoice;
 
   // TODO: Toggle to Onchain

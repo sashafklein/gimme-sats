@@ -1,14 +1,17 @@
 import React, { ReactChild } from "react";
 
 import { INPUT, INVOICE, EXPIRED, PAID, LOADING } from "../../const";
-import GMSContext from "../GMSContext";
 import { Actions, Context } from "../../types";
+import { log, getSettings } from "../../utils";
+
+import GMSContext from "../GMSContext";
 
 import InputModal from "./content/InputModal";
 import InvoiceModal from "./content/InvoiceModal";
 import { ModalScreen, ModalWindow, ModalCard } from "./content/ModalContent";
 import LoadingModal from "./content/LoadingModal";
 import PaidModal from "./content/PaidModal";
+import ErrorBoundary from "./content/ErrorBoundary";
 
 const isDescendant = (child: HTMLElement, parentClass: string) => {
   let node = child.parentNode as HTMLElement | null;
@@ -27,12 +30,13 @@ const ModalContainer = (props: { children: ReactChild }) => {
       {(queryProps) => {
         const { context, actions }: { context: Context; actions: Actions } =
           queryProps;
+
         const { children } = props;
 
-        const stage = context.stage as string;
+        const settings = getSettings(context);
+        const stage = settings.stage as string;
         const show = !!stage;
-        console.log(stage, context);
-
+        log("Modal receiving context", context);
         const Content =
           {
             [INPUT]: InputModal,
@@ -58,7 +62,9 @@ const ModalContainer = (props: { children: ReactChild }) => {
                 className="gms__screen"
               >
                 <ModalCard show={show} className="gms__card">
-                  <Content context={context} actions={actions} />
+                  <ErrorBoundary>
+                    <Content context={context} actions={actions} />
+                  </ErrorBoundary>
                 </ModalCard>
               </ModalScreen>
             </ModalWindow>

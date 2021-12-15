@@ -1,4 +1,5 @@
 import { Context, Actions } from "../../../types";
+import { getSettings } from "../../../utils";
 import Checkmark from "./Checkmark";
 
 import {
@@ -13,7 +14,8 @@ import {
 
 const PaidModal = (props: { context: Context; actions: Actions }) => {
   const { context, actions } = props;
-  const { amount } = context;
+  const settings = getSettings(context);
+  const { amount } = settings;
   return (
     <ModalContent>
       <ModalHeader>

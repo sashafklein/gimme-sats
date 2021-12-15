@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import API from "../../../api";
 import { Context, Actions } from "../../../types";
+import { getSettings } from "../../../utils";
 
 import {
   ModalActions,
@@ -30,20 +31,30 @@ const Row = styled.div`
  */
 const InputModalContent = (props: { context: Context; actions: Actions }) => {
   const { context, actions } = props;
-  const {
-    fixedAmount,
-    fixedNote,
-    defaultAmount,
-    defaultNote,
-    to,
-    note,
-    amount,
-  } = context;
-  const [amountApproved, setAmountApproved] = useState(!!fixedAmount);
-  const [noteApproved, setNoteApproved] = useState(!!fixedNote);
-  const [amountString, setAmountString] = useState(
-    (fixedAmount || defaultAmount)?.toFixed(2) || "0.00"
+  const settings = getSettings(context);
+  const { to, displayName, note, amount, amountIsFixed, noteIsFixed } =
+    settings;
+
+  const [flowStep, setFlowStep] = useState(
+    [amount, note].findIndex((el) => !el)
   );
+
+  if (noteIsFixed && !note?.length) {
+    throw new Error(
+      "Bad settings: 'noteIsFixed' was set to true with empty note."
+    );
+  }
+
+  if (amountIsFixed && !amount) {
+    throw new Error(
+      "Bad settings: 'amountIsFixed' was set to true with empty amount."
+    );
+  }
+
+  const regressFlow = () => setFlowStep(flowStep - 1);
+  const progressFlow = () => setFlowStep(flowStep + 1);
+
+  const [amountString, setAmountString] = useState((amount || 0).toFixed(2));
 
   const api = new API(context, actions);
 
@@ -66,7 +77,7 @@ const InputModalContent = (props: { context: Context; actions: Actions }) => {
 
       // Also update the numerical value if it changed
       if (parseFloat(newAmountStr) !== amount) {
-        actions.update({
+        actions.updateSettings({
           amount: parseFloat(newAmountStr),
         });
       }
@@ -74,83 +85,85 @@ const InputModalContent = (props: { context: Context; actions: Actions }) => {
   };
 
   const PrimaryButton = () => {
-    if (!amountApproved) {
-      return (
-        <ActionButton
-          tone="med"
-          onClick={() => setAmountApproved(true)}
-          disabled={!amount}
-        >
-          Next
-        </ActionButton>
-      );
-    } else if (!noteApproved) {
-      return (
-        <ActionButton
-          tone="med"
-          onClick={() => setNoteApproved(true)}
-          disabled={!note?.length}
-        >
-          Next
-        </ActionButton>
-      );
+    const options = { children: "Next", disabled: false, onClick: () => {} };
+
+    if (flowStep === 0) {
+      options.disabled = !amount;
+      options.onClick = progressFlow;
+    } else if (flowStep === 1) {
+      options.disabled = !note?.length;
+      options.onClick = noteIsFixed ? api.getInvoiceAndUpdateApp : progressFlow;
+      options.children = noteIsFixed ? "Get invoice" : "Next";
     } else {
-      return (
-        <ActionButton tone="med" onClick={api.getInvoiceAndUpdateApp}>
-          Get invoice
-        </ActionButton>
-      );
+      options.children = "Get invoice";
+      options.onClick = api.getInvoiceAndUpdateApp;
     }
+
+    return <ActionButton tone="med" {...options} />;
   };
+
+  const BackButton = () => {
+    const options = {
+      children: "Back",
+      onClick: regressFlow,
+    };
+
+    if (flowStep === 0) {
+      options.onClick = actions.reset;
+      options.children = "Cancel";
+    }
+
+    return <ActionButton tone="light" {...options} />;
+  };
+
+  const amountInput = amountIsFixed ? (
+    <H2>${amountString}</H2>
+  ) : (
+    <>
+      <H2>Enter an amount</H2>
+      <Row style={{ marginLeft: -20 }}>
+        <H2 style={{ marginRight: "10px" }}>$</H2>
+        <NumberInput
+          value={amountString}
+          onChange={handleNumInput}
+          onKeyPress={(event) => {
+            if (event.key === "Enter" && amount !== 0) {
+              progressFlow();
+            }
+          }}
+        />
+      </Row>
+    </>
+  );
+
+  const noteInput =
+    noteIsFixed || flowStep === 2 ? (
+      <>
+        <H2>${amountString}</H2>
+        <P>{note}</P>
+      </>
+    ) : (
+      <>
+        <H2>${amountString}</H2>
+        <H2>Add a note</H2>
+        <TextArea
+          value={note}
+          onChange={({ target }) =>
+            actions.updateSettings({ note: target.value })
+          }
+        />
+      </>
+    );
 
   return (
     <ModalContent>
       <ModalHeader>
-        <H1>Pay {to}</H1>
+        <H1>Pay {displayName || to}</H1>
       </ModalHeader>
-      <ModalBody>
-        {fixedAmount || amountApproved ? (
-          <>
-            <H2>${amountString}</H2>
-          </>
-        ) : (
-          <>
-            <H2>Enter an amount</H2>
-            <Row style={{ marginLeft: -20 }}>
-              <H2 style={{ marginRight: "10px" }}>$</H2>
-              <NumberInput
-                value={amountString}
-                onChange={handleNumInput}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter" && amount !== 0) {
-                    setAmountApproved(true);
-                  }
-                }}
-              />
-            </Row>
-          </>
-        )}
-        {amountApproved ? (
-          noteApproved ? (
-            <P>{note}</P>
-          ) : (
-            <>
-              <H2>Add a note</H2>
-              <TextArea
-                value={note || defaultNote}
-                onChange={({ target }) =>
-                  actions.update({ note: target.value })
-                }
-              />
-            </>
-          )
-        ) : null}
-      </ModalBody>
+      <ModalBody>{flowStep === 0 ? amountInput : noteInput}</ModalBody>
       <ModalActions>
         <PrimaryButton />
-        <ActionButton tone="light" onClick={actions.reset}>
-          Cancel
-        </ActionButton>
+        <BackButton />
       </ModalActions>
     </ModalContent>
   );

@@ -3,6 +3,7 @@ import { EXPIRED, INVOICE, LOADING, PAID } from "./const";
 import { Invoice, Context, Actions } from "./types";
 
 import { STRIKE } from "./const";
+import { getSettings } from "./utils";
 
 interface ApiInterface {
   getInvoice(): Promise<Invoice>;
@@ -25,11 +26,12 @@ class Strike implements ApiInterface {
   }
 
   getInvoice = async () => {
-    const { to, note } = this.context;
-    const amount = this.context.amount as number;
+    const settings = getSettings(this.context);
+    const { to, note } = settings;
+    const amount = settings.amount as number;
     const includeOnchainAddress = amount >= 10;
     const body = {
-      note,
+      description: note,
       includeOnchainAddress,
       amount: {
         currency: "USD",
@@ -75,33 +77,44 @@ class API {
   }
 
   getInvoiceAndUpdateApp = () => {
-    this.actions.update({ stage: LOADING });
+    this.actions.updateSettings({ stage: LOADING });
     return this.api.getInvoice().then((invoice: Invoice) => {
-      this.actions.update({ invoice, stage: INVOICE });
+      this.actions.update({
+        invoice,
+        settings: { ...this.context.settings, stage: INVOICE },
+        globalSettings: this.context.globalSettings,
+      });
     });
   };
 
   checkForPaymentAndUpdateApp = () => {
     this.api.checkForPayment().then((invoice: Invoice) => {
-      const newContext = {
-        ...this.context,
-        invoice,
-      };
-
+      let stage = this.context.settings.stage;
       if (invoice.secondsLeft <= 0) {
-        newContext.stage = EXPIRED;
+        stage = EXPIRED;
       }
 
       if (invoice.status === PAID) {
-        newContext.stage = PAID;
+        stage = PAID;
       }
 
+      const newContext = {
+        invoice,
+        settings: {
+          ...this.context.settings,
+          stage,
+        },
+        globalSettings: this.context.globalSettings,
+      };
+
       this.actions.update(newContext);
+      this.actions.onPayment(newContext);
     });
   };
 
   static getInstance = (context: Context) => {
-    const { service } = context;
+    const settings = getSettings(context);
+    const { service } = settings;
 
     // @ts-ignore
     const ApiClass = APIs[service];

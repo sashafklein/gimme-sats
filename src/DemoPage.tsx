@@ -6,7 +6,7 @@ import GMSProvider from "./components/GMSProvider";
 import Bolt from "./components/icons/Bolt";
 import Github from "./components/icons/Github";
 import { DARK_BLUE, WHITE, THEMES } from "./const";
-import { ColorTheme } from "./types";
+import { Settings } from "./types";
 
 const Section = styled.section`
   width: 100vw;
@@ -120,46 +120,28 @@ const Checkbox = ({ ticked }: { ticked: Boolean }) => (
   <CheckboxDiv className={ticked ? "ticked" : ""} />
 );
 
-interface Options {
-  fixedAmount: Boolean;
-  fixedNote: Boolean;
-  defaultAmount: Boolean;
-  defaultNote: Boolean;
-  theme: Boolean;
-  to: Boolean;
-}
-
-const tickedOptionStart: Options = {
-  fixedAmount: false,
-  fixedNote: false,
-  defaultAmount: false,
-  defaultNote: false,
-  theme: false,
-  to: false,
-};
-
 const alternates = {
-  fixedAmount: 20,
-  fixedNote: "Fixed: You can't change me",
-  defaultAmount: 5,
-  defaultNote: "Default: Change away",
+  amount: 5,
+  note: "Prefilled note",
+  amountIsFixed: true,
+  noteIsFixed: true,
   theme: THEMES[WHITE],
   to: "niko",
-};
+  displayName: "my brother!",
+} as Settings;
 
 const DemoPage = () => {
-  // @ts-ignore
-  const [tickedOptions, setTickedOptions] = useState(tickedOptionStart);
-  const options = Object.keys(tickedOptions).reduce((obj, key) => {
-    // @ts-ignore
-    return { ...obj, [key]: tickedOptions[key] ? alternates[key] : undefined };
-  }, {});
+  const [tickedOptions, setTickedOptions] = useState({});
 
-  // @ts-ignore
-  const theme = options.theme || (THEMES[DARK_BLUE] as ColorTheme);
+  const options: Settings = Object.keys(tickedOptions)
+    .filter((k) => k)
+    // @ts-ignore
+    .reduce((o, k) => ({ ...o, [k]: alternates[k] }), {});
+
+  const theme = THEMES[DARK_BLUE];
 
   return (
-    <GMSProvider to="sasha" theme={theme}>
+    <GMSProvider settings={{ to: "sasha", theme }}>
       <div>
         <Header>
           <LogoLink href="https://gimmesats.com">
@@ -197,7 +179,7 @@ const DemoPage = () => {
                 payment flow for the below GimmeSats button:
               </h2>
               <div style={{ padding: "20px 0", marginBottom: 20 }}>
-                {Object.keys(tickedOptions).map((key) => (
+                {Object.keys(alternates).map((key) => (
                   <CheckboxContainer
                     key={key}
                     onClick={() => {
@@ -214,7 +196,11 @@ const DemoPage = () => {
                   </CheckboxContainer>
                 ))}
               </div>
-              <GimmeSats tone="light" {...options} theme={THEMES[WHITE]} />
+              <GimmeSats
+                tone="light"
+                settings={options}
+                buttonTheme={options.theme}
+              />
             </ContentDiv>
           </Container>
         </DarkSection>
@@ -241,8 +227,7 @@ const DemoPage = () => {
               <Inline>
                 <h2 style={{ marginRight: 10 }}> Like this tool?</h2>
                 <GimmeSatsWithBolt
-                  defaultNote="Tip for GimmeSats!"
-                  defaultAmount={5}
+                  settings={{ note: "Tip for GimmeSats!", amount: 5 }}
                 >
                   Sats Appreciated
                 </GimmeSatsWithBolt>

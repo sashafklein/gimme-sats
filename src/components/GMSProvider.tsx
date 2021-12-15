@@ -1,62 +1,37 @@
 import { ReactChild, useState } from "react";
 import { ThemeProvider } from "styled-components";
 
+import { log } from "../utils";
 import { DARK_BLUE, STRIKE, THEME_REQUIREMENTS, THEMES } from "../const";
-import { Actions, ColorTheme, Context } from "../types";
+import { Actions, Context, Invoice, Settings } from "../types";
 
 import GMSContext from "./GMSContext";
 import ModalContainer from "./modal/ModalContainer";
 
-const validateAndDefault = (context: Context) => {
-  context.service = context.service || STRIKE;
-  context.note = context.note || "";
-
-  if (context.fixedAmount && !context.amount) {
-    context.amount = context.fixedAmount;
-  }
-
-  if (context.defaultAmount && !context.amount) {
-    context.amount = context.defaultAmount;
-  }
-
-  if (context.fixedNote && !context.note) {
-    context.note = context.fixedNote;
-  }
-
-  if (context.defaultNote && !context.note) {
-    context.note = context.defaultNote;
-  }
-
-  return context;
-};
-
 interface Props {
   /** The single React component to render within this context. (Your app) */
   children: ReactChild;
-  /** An object of type ColorTheme. Either a provided theme or a custom object of identical shape. */
-  theme?: ColorTheme;
-  /** One of the acceptable API Service types. (Currently, just Strike). */
-  service?: string;
-  /** The unique identifier of the payee in the given service. */
-  to: string;
-  /** Any additional global defaults for a GimmeSats button. */
-  defaults?: Context;
+  settings?: Settings;
+  onPayment?: Function;
 }
 
 const GMSProvider = (props: Props) => {
-  const {
-    children,
-    theme = THEMES[DARK_BLUE],
-    service = STRIKE,
-    defaults,
-    to,
-  } = props;
-  const fullDefaults = {
-    ...(defaults || {}),
-    service,
-    to,
-    theme,
+  const { children, settings, onPayment = () => {} } = props;
+  const globalSettings = {
+    theme: THEMES[DARK_BLUE],
+    service: STRIKE,
+    note: "",
+    amount: 0,
+    // Override these defaults with explicit global settings
+    ...settings,
   };
+
+  const [context, setContext] = useState({
+    globalSettings,
+    settings: {},
+  } as Context);
+
+  const theme = context.settings.theme || context.globalSettings.theme;
   const missingReqs = THEME_REQUIREMENTS.filter(
     // @ts-ignore
     (key) => theme[key] === undefined
@@ -68,22 +43,48 @@ const GMSProvider = (props: Props) => {
     );
   }
 
-  const [context, setContext] = useState(fullDefaults as Context);
-
-  const update = (changes = {}) => {
-    setContext(
-      validateAndDefault({
-        ...context,
+  const updateSettings = (changes = {}) => {
+    log("ACTION - updateSettings");
+    setContext({
+      ...context,
+      settings: {
+        ...context.settings,
         ...changes,
-      })
-    );
+      },
+    });
   };
 
-  const reset = () => setContext({ service: context.service, to: context.to });
+  const updateInvoice = (changes = {} as Invoice) => {
+    const newContext = {
+      ...context,
+      invoice: {
+        ...(context.invoice || {}),
+        ...changes,
+      },
+    };
+    log("ACTION - updateInvoice");
+    setContext(newContext);
+  };
+
+  const reset = () => {
+    log("ACTION - reset");
+    setContext({
+      globalSettings: context.globalSettings,
+      settings: {},
+    });
+  };
+
+  const update = (context: Context) => {
+    log("ACTION - update");
+    setContext(context);
+  };
 
   const actions = {
-    update,
+    updateSettings,
+    updateInvoice,
     reset,
+    onPayment,
+    update,
   } as Actions;
 
   const value = {

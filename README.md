@@ -64,30 +64,44 @@ interface Props {
 
 A button for triggering the payment flow. This button takes a large set of options, some of which are redundant with and override the Provider options. The button component can accept the full set of configurations shared in global context, and will override any Provider details on trigger.
 
+GimmeSats takes a number of props:
+
 ```ts
-interface Props = {
-  /** Amount set prior to button click, which user cannot override. */
-  fixedAmount?: number;
-  /** Note set prior to button click, which user cannot override. */
-  fixedNote?: string;
-  /** Amount populating the numerical input when the modal opens. Can be overriden */
-  defaultAmount?: number;
-  /** Note populating the text input when the modal opens. Can be overriden. */
-  defaultNote?: string;
-  /** The active amount the user will pay (or has paid), in dollars. */
+interface Props extends Settings {
+  children?: ReactChild;
+  /** Whether the button should be light dark or mid of the given theme. */
+  tone?: string;
+  /** Styles the button alone, not the triggered modal. */
+  buttonTheme?: ColorTheme;
+  /** Settings to launch with, an attributes of which override global settings for the triggered modal. */
+  settings?: Settings;
+  /** Whether to show a lightning bolt icon. */
+  bolt?: Boolean;
+}
+```
+
+Settings is defined below:
+
+```ts
+export interface Settings {
+  /** Amount to charge. If pre-set, can be 'fixed' or malleable. */
   amount?: number;
-  /** The current payment note. */
+  /** If true, amount is not changeable by user. Default: false. */
+  amountIsFixed?: Boolean;
+  /** Charge note. Can be 'fixed' or malleable. */
   note?: string;
-  /** Identifying string for recipient. Varies by API service. */
+  /** If true, note is not alterable by user. Default: false. */
+  noteIsFixed?: Boolean;
+  /** Identifier of payment recipient. Varies based on service. */
   to?: string;
-  /** API service name. Must be one of the constants included in this repository. */
-  service?: string,
-  /** Optional callback run on successful payment. Given context and actions as arguments. */
-  onPayment?(context: Context, actions: Actions): Function;
-  /** Stage of the purchase flow. Must be one of the constants included in this repository. */
-  stage?: string;
+  /** Name to show in place of 'to' value. */
+  displayName?: string;
+  /** Service. API service for generating invoice and receiving payment. Default: STRIKE. */
+  service?: string;
   /** Color theme for the button and modal. */
   theme?: ColorTheme;
+  /** Stage of the purchase flow. Must be one of the constants included in this repository. */
+  stage?: string;
 }
 ```
 

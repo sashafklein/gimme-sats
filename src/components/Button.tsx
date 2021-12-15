@@ -7,7 +7,7 @@ const Btn = styled.button`
   border: none;
   font-weight: bold;
   font-size: 18px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, scale 1.5s ease;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
 `;
 
@@ -17,7 +17,6 @@ const Button = styled(Btn)<{ tone: string; isDark: Boolean }>`
     const { tone, disabled, theme } = props;
 
     const bg = theme[tone];
-    const polarize = tone === "light" ? lighten : darken;
     const disabledStart = tone === "light" ? darken(0.2, bg) : lighten(0.2, bg);
     const disabledBg = desaturate(0.7, disabledStart);
 
@@ -27,7 +26,8 @@ const Button = styled(Btn)<{ tone: string; isDark: Boolean }>`
       color: ${tone === "light" ? "black" : "white"};
 
       &:hover {
-        background-color: ${disabled ? disabledBg : polarize(0.02, bg)};
+        background-color: ${disabled ? disabledBg : lighten(0.03, bg)};
+        transform: ${disabled ? "scale(1.00)" : "scale(1.01)"};
       }
     `;
   }}

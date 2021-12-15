@@ -1,5 +1,5 @@
-import { ReactChild } from "react";
-import styled from "styled-components";
+import { ReactChild, ReactElement } from "react";
+import styled, { StyledComponent } from "styled-components";
 
 import { INPUT } from "../const";
 import { ColorTheme, Settings } from "../types";
@@ -16,17 +16,17 @@ const SvgButtonContent = styled.span`
 
 interface Props extends Settings {
   children?: ReactChild;
+  /** Whether the button should be light dark or mid of the given theme. */
   tone?: string;
+  /** Styles the button alone, not the triggered modal. */
   buttonTheme?: ColorTheme;
+  /** Settings to launch with, overrides global settings. */
   settings?: Settings;
+  /** Whether to show a lightning bolt icon. */
+  icon?: ReactElement;
+  /** Component to render, which triggers on click. */
+  ButtonEl?: StyledComponent<any, any>;
 }
-
-const DefaultChild = () => (
-  <SvgButtonContent>
-    Gimme Sats
-    <Bolt width={10} style={{ marginLeft: 15 }} fill="#ffe37c" />
-  </SvgButtonContent>
-);
 
 /**
  * This component renders a button, which, on click, generates a payment "modal" in a "lightbox".
@@ -34,7 +34,14 @@ const DefaultChild = () => (
  * and confirms payment automatically.
  */
 const GimmeSats = (props: Props) => {
-  const { tone, settings, buttonTheme } = props;
+  const {
+    tone,
+    settings,
+    buttonTheme,
+    children = "Gimme Sats",
+    icon = <Bolt width={10} style={{ marginLeft: 15 }} fill="#ffe37c" />,
+    ButtonEl = Button,
+  } = props;
 
   return (
     <GMSContext.Consumer>
@@ -45,7 +52,7 @@ const GimmeSats = (props: Props) => {
         };
 
         return (
-          <Button
+          <ButtonEl
             tone={tone || "dark"}
             isDark={tone !== "light"}
             theme={buttonTheme || finalSettings.theme}
@@ -56,29 +63,29 @@ const GimmeSats = (props: Props) => {
               });
             }}
           >
-            {props.children || <DefaultChild />}
-          </Button>
+            <SvgButtonContent>
+              {children}
+              {icon}
+            </SvgButtonContent>
+          </ButtonEl>
         );
       }}
     </GMSContext.Consumer>
   );
 };
 
-export const GimmeSatsWithBolt = (props: Props) => (
-  <GimmeSats {...props}>
-    <SvgButtonContent>
-      {props.children}
-      <Bolt
-        width={10}
-        style={{ marginLeft: props.children ? 15 : 0 }}
-        fill="#ffe37c"
-      />
-    </SvgButtonContent>
-  </GimmeSats>
-);
-
-export const GimmeSatsSmall = styled(GimmeSats)`
-  padding: 5px;
+const SmallButton = styled(Button)`
+  padding: 9px 12px;
+  border-radius: 14px;
 `;
+
+export const GimmeSatsJustBolt = (props: Props) => (
+  <GimmeSats
+    {...props}
+    children=""
+    ButtonEl={SmallButton}
+    icon={<Bolt width={12} fill="#ffe37c" />}
+  />
+);
 
 export default GimmeSats;

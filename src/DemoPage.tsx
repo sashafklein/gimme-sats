@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import GimmeSats, { GimmeSatsWithBolt } from "./components/GimmeSats";
+import GimmeSats, { GimmeSatsJustBolt } from "./components/GimmeSats";
 
 import GMSProvider from "./components/GMSProvider";
 import Bolt from "./components/icons/Bolt";
@@ -134,12 +134,13 @@ const DemoPage = () => {
   const [tickedOptions, setTickedOptions] = useState({});
 
   const options: Settings = Object.keys(tickedOptions)
-    .filter((k) => k)
+    // @ts-ignore
+    .filter((k) => tickedOptions[k])
     // @ts-ignore
     .reduce((o, k) => ({ ...o, [k]: alternates[k] }), {});
 
   const theme = THEMES[DARK_BLUE];
-
+  console.log(options, tickedOptions);
   return (
     <GMSProvider settings={{ to: "sasha", theme }}>
       <div>
@@ -158,7 +159,7 @@ const DemoPage = () => {
           <Container>
             <DarkTitle>Dead-simple Lighting payment</DarkTitle>
             <DarkSubtitle>
-              A library for simply integrating Lightning payment into React
+              A library for simply integrating Lightning payment into React apps
             </DarkSubtitle>
             <ContentDiv>
               <h2 style={{ marginBottom: 40 }}>Give it a try!</h2>
@@ -222,15 +223,21 @@ const DemoPage = () => {
                 >
                   <h2>Check the project out on Github</h2>
                 </a>
-                <Github width={30} style={{ marginLeft: 10 }} />
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://github.com/sashafklein/gimme-sats"
+                  style={{ color: "black" }}
+                >
+                  <Github width={30} style={{ marginLeft: 10 }} />
+                </a>
               </Inline>
               <Inline>
                 <h2 style={{ marginRight: 10 }}> Like this tool?</h2>
-                <GimmeSatsWithBolt
+                <GimmeSatsJustBolt
+                  children=""
                   settings={{ note: "Tip for GimmeSats!", amount: 5 }}
-                >
-                  Sats Appreciated
-                </GimmeSatsWithBolt>
+                />
               </Inline>
             </ContentDiv>
           </Container>

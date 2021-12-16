@@ -3,7 +3,7 @@ import QRCode from "react-qr-code";
 import styled from "styled-components";
 
 import API from "../../../api";
-import { EXPIRED, INPUT, PAID } from "../../../const";
+import { EXPIRED, INPUT } from "../../../const";
 import { Context, Actions, Invoice } from "../../../types";
 import { getSettings } from "../../../utils";
 

@@ -1,4 +1,3 @@
-import { text } from "node:stream/consumers";
 import styled, { keyframes, StyledComponent } from "styled-components";
 import Button from "../../Button";
 

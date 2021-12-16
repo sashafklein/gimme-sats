@@ -12,7 +12,6 @@ import { ModalScreen, ModalWindow, ModalCard } from "./content/ModalContent";
 import LoadingModal from "./content/LoadingModal";
 import PaidModal from "./content/PaidModal";
 import ErrorBoundary from "./content/ErrorBoundary";
-import ErrorModal from "./content/ErrorModal";
 
 const isDescendant = (child: HTMLElement, parentClass: string) => {
   let node = child.parentNode as HTMLElement | null;

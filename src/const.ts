@@ -1,14 +1,16 @@
 import { ColorTheme } from "./types";
 
 // Stages of payment
-export const INPUT = "INPUT";
+export const AMOUNT_INPUT = "AMOUNT_INPUT";
+export const NOTE_INPUT = "NOTE_INPUT";
 export const LOADING = "LOADING";
 export const INVOICE = "INVOICE";
 export const EXPIRED = "EXPIRED";
 export const PAID = "PAID";
 
 export const STAGES = {
-  INPUT,
+  AMOUNT_INPUT,
+  NOTE_INPUT,
   LOADING,
   INVOICE,
   EXPIRED,
@@ -23,7 +25,7 @@ export const THEMES = {
   [DARK_BLUE]: {
     dark: "#050c3e",
     med: "#021281",
-    light: "#2784f9",
+    light: "#5ca0f5",
     accent: "#fed954",
     isDark: true,
     name: DARK_BLUE,

@@ -105,7 +105,7 @@ export interface Settings {
 }
 ```
 
-By default, the button says "Gimme Sats" and includes a lightning bolt. Visuals can be customized by passing in a custom child, changing the theme object, or overriding styles with CSS (see below).
+By default, the button says "Gimme Sats" and includes a lightning bolt. A text-free, bolt-only version is also exported, and named `GimmeSatsJustBolt`. Visuals can be further customized by passing in a custom child, changing the theme object, or overriding styles with CSS (see below).
 
 ### Other
 
@@ -127,15 +127,18 @@ I'll look into offering better theming in the future.
 
 ### Version 1.1
 
-- [ ] Improve styles and add light animations
-- [ ] Handle unexpected errors smoothly
+- [x] Improve styles and add light animations
+- [x] Handle unexpected errors smoothly
+- [x] Better delineate between global config and button-specific options, to avoid bugs.
 - [ ] Add testing (mostly integration and end-to-end)
 - [ ] Add CI and CI badge to Readme
+
+### Version 1.2
+
 - [ ] Allow users to view amount in sats, in addition to USD
 - [ ] Add a handful of additional themes
 - [ ] Add alternatives to Strike
-- [ ] Ensure valid identifier before attempting to create invoice
-- [ ] Better delineate between global config and button-specific options, to avoid bugs.
+- [ ] Ensure valid identifier before attempting to create invoice? (Maybe unnecessary)
 
 ### Version 2.0
 

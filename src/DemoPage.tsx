@@ -140,7 +140,7 @@ const DemoPage = () => {
     .reduce((o, k) => ({ ...o, [k]: alternates[k] }), {});
 
   const theme = THEMES[DARK_BLUE];
-  console.log(options, tickedOptions);
+
   return (
     <GMSProvider settings={{ to: "sasha", theme }}>
       <div>

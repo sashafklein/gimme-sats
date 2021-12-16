@@ -3,7 +3,7 @@ import QRCode from "react-qr-code";
 import styled from "styled-components";
 
 import API from "../../../api";
-import { EXPIRED, INPUT } from "../../../const";
+import { EXPIRED, NOTE_INPUT } from "../../../const";
 import { Context, Actions, Invoice } from "../../../types";
 import { getSettings } from "../../../utils";
 
@@ -28,6 +28,9 @@ const Expired = styled.div`
   height: 180px;
   background-color: black;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const InvoiceModal = (props: { context: Context; actions: Actions }) => {
@@ -96,7 +99,7 @@ const InvoiceModal = (props: { context: Context; actions: Actions }) => {
         </ActionButton>
         <ActionButton
           tone="light"
-          onClick={() => actions.updateSettings({ stage: INPUT })}
+          onClick={() => actions.updateSettings({ stage: NOTE_INPUT })}
         >
           Back
         </ActionButton>

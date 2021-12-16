@@ -1,17 +1,25 @@
 import React, { ReactChild } from "react";
 
-import { INPUT, INVOICE, EXPIRED, PAID, LOADING } from "../../const";
+import {
+  INVOICE,
+  EXPIRED,
+  PAID,
+  LOADING,
+  AMOUNT_INPUT,
+  NOTE_INPUT,
+} from "../../const";
 import { Actions, Context } from "../../types";
 import { log, getSettings } from "../../utils";
 
 import GMSContext from "../GMSContext";
+import NoteInputModal from "./content/NoteInputModal";
 
-import InputModal from "./content/InputModal";
 import InvoiceModal from "./content/InvoiceModal";
 import { ModalScreen, ModalWindow, ModalCard } from "./content/ModalContent";
 import LoadingModal from "./content/LoadingModal";
 import PaidModal from "./content/PaidModal";
 import ErrorBoundary from "./content/ErrorBoundary";
+import AmountInputModal from "./content/AmountInputModal";
 
 const isDescendant = (child: HTMLElement, parentClass: string) => {
   let node = child.parentNode as HTMLElement | null;
@@ -36,10 +44,13 @@ const ModalContainer = (props: { children: ReactChild }) => {
         const settings = getSettings(context);
         const stage = settings.stage as string;
         const show = !!stage;
+
         log("Modal receiving context", context);
+
         const Content =
           {
-            [INPUT]: InputModal,
+            [AMOUNT_INPUT]: AmountInputModal,
+            [NOTE_INPUT]: NoteInputModal,
             [LOADING]: LoadingModal,
             [INVOICE]: InvoiceModal,
             [EXPIRED]: InvoiceModal,

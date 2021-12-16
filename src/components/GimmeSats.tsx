@@ -1,7 +1,7 @@
 import { ReactChild, ReactElement } from "react";
 import styled, { StyledComponent } from "styled-components";
 
-import { INPUT } from "../const";
+import { AMOUNT_INPUT } from "../const";
 import { ColorTheme, Settings } from "../types";
 
 import GMSContext from "./GMSContext";
@@ -57,7 +57,7 @@ const GimmeSats = (props: Props) => {
             theme={buttonTheme || finalSettings.theme}
             onClick={() => {
               actions.updateSettings({
-                stage: INPUT,
+                stage: AMOUNT_INPUT,
                 ...finalSettings,
               });
             }}

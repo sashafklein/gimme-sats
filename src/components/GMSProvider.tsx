@@ -16,7 +16,7 @@ interface Props {
 }
 
 const GMSProvider = (props: Props) => {
-  const { children, settings, onPayment = () => {} } = props;
+  const { children, settings = {}, onPayment = () => {} } = props;
   const globalSettings = {
     theme: THEMES[DARK_BLUE],
     service: STRIKE,
@@ -31,74 +31,83 @@ const GMSProvider = (props: Props) => {
     settings: {},
   } as Context);
 
-  const theme = context.settings.theme || context.globalSettings.theme;
-  const missingReqs = THEME_REQUIREMENTS.filter(
-    // @ts-ignore
-    (key) => theme[key] === undefined
-  );
-  if (!theme || missingReqs.length) {
-    throw new Error(
-      `Bad GimmeSats Theme. Does not include all requirements.
-        Missing: ${missingReqs.join(" ")}`
+  try {
+    const theme = context.settings.theme || context.globalSettings.theme;
+    const missingReqs = THEME_REQUIREMENTS.filter(
+      // @ts-ignore
+      (key) => theme[key] === undefined
     );
-  }
+    if (!theme || missingReqs.length) {
+      throw new Error(
+        `Bad GimmeSats Theme. Does not include all requirements.
+          Missing: ${missingReqs.join(" ")}`
+      );
+    }
 
-  const updateSettings = (changes = {}) => {
-    log("ACTION - updateSettings");
-    setContext({
-      ...context,
-      settings: {
-        ...context.settings,
-        ...changes,
-      },
-    });
-  };
-
-  const updateInvoice = (changes = {} as Invoice) => {
-    const newContext = {
-      ...context,
-      invoice: {
-        ...(context.invoice || {}),
-        ...changes,
-      },
+    const updateSettings = (changes = {}) => {
+      log("ACTION - updateSettings");
+      setContext({
+        ...context,
+        settings: {
+          ...context.settings,
+          ...changes,
+        },
+      });
     };
-    log("ACTION - updateInvoice");
-    setContext(newContext);
-  };
 
-  const reset = () => {
-    log("ACTION - reset");
-    setContext({
-      globalSettings: context.globalSettings,
-      settings: {},
-    });
-  };
+    const updateInvoice = (changes = {} as Invoice) => {
+      const newContext = {
+        ...context,
+        invoice: {
+          ...(context.invoice || {}),
+          ...changes,
+        },
+      };
+      log("ACTION - updateInvoice");
+      setContext(newContext);
+    };
 
-  const update = (context: Context) => {
-    log("ACTION - update");
-    setContext(context);
-  };
+    const reset = () => {
+      log("ACTION - reset");
+      setContext({
+        globalSettings: context.globalSettings,
+        settings: {},
+      });
+    };
 
-  const actions = {
-    updateSettings,
-    updateInvoice,
-    reset,
-    onPayment,
-    update,
-  } as Actions;
+    const update = (context: Context) => {
+      log("ACTION - update");
+      setContext(context);
+    };
 
-  const value = {
-    context,
-    actions,
-  };
+    const actions = {
+      updateSettings,
+      updateInvoice,
+      reset,
+      onPayment,
+      update,
+    } as Actions;
 
-  return (
-    <GMSContext.Provider value={value}>
-      <ThemeProvider theme={theme}>
-        <ModalContainer>{children}</ModalContainer>
-      </ThemeProvider>
-    </GMSContext.Provider>
-  );
+    const value = {
+      context,
+      actions,
+    };
+
+    return (
+      <GMSContext.Provider value={value}>
+        <ThemeProvider theme={theme}>
+          <ModalContainer>{children}</ModalContainer>
+        </ThemeProvider>
+      </GMSContext.Provider>
+    );
+  } catch (err) {
+    console.log(
+      "Error in GMSProvider",
+      err,
+      `Settings: ${JSON.stringify(settings, null, 2)}`
+    );
+    return <>{children}</>;
+  }
 };
 
 export default GMSProvider;

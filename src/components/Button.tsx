@@ -17,7 +17,7 @@ const Button = styled(Btn)<{ tone: string }>`
     const { tone, disabled, theme } = props;
 
     const bg = theme[tone];
-
+    console.log(bg);
     const disabledStart = tone === "light" ? darken(0.2, bg) : lighten(0.2, bg);
     const disabledBg = desaturate(0.7, disabledStart);
 

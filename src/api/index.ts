@@ -4,12 +4,11 @@ import { Invoice, Context, Actions } from "../types";
 import { STRIKE } from "../const";
 import { getSettings } from "../utils";
 
-// import Strike from "./Strike";
 import BaseApi from "./base";
-import Mock from "./Mock";
+import Strike from "./Strike";
 
 const APIs = {
-  [STRIKE]: Mock, // Strike,
+  [STRIKE]: Strike,
 };
 
 class API {

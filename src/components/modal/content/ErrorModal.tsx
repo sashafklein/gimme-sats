@@ -11,7 +11,6 @@ import {
 } from "./ModalContent";
 
 const ErrorModal = (props: { actions: Actions }) => {
-  const { actions } = props;
   return (
     <ModalContent>
       <ModalHeader>
@@ -22,7 +21,7 @@ const ErrorModal = (props: { actions: Actions }) => {
         <P>See the console for details.</P>
       </ModalBody>
       <ModalActions>
-        <ActionButton tone="light" onClick={actions.reset}>
+        <ActionButton tone="light" onClick={props.actions.reset}>
           Cancel
         </ActionButton>
       </ModalActions>

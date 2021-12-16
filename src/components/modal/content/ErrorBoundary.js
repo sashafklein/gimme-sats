@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      return <ErrorModal />;
+      return <ErrorModal reset={this.props.reset} />;
     } else {
       return this.props.children;
     }

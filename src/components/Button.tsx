@@ -11,12 +11,13 @@ const Btn = styled.button`
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
 `;
 
-const Button = styled(Btn)<{ tone: string; isDark: Boolean }>`
+const Button = styled(Btn)<{ tone: string }>`
   ${(props) => {
     // @ts-ignore
     const { tone, disabled, theme } = props;
 
     const bg = theme[tone];
+
     const disabledStart = tone === "light" ? darken(0.2, bg) : lighten(0.2, bg);
     const disabledBg = desaturate(0.7, disabledStart);
 

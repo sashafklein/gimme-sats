@@ -3,7 +3,7 @@ import QRCode from "react-qr-code";
 import styled from "styled-components";
 
 import API from "../../../api";
-import { EXPIRED } from "../../../const";
+import { EXPIRED, INPUT } from "../../../const";
 import { Context, Actions, Invoice } from "../../../types";
 import { getSettings } from "../../../utils";
 
@@ -88,8 +88,11 @@ const InvoiceModal = (props: { context: Context; actions: Actions }) => {
         >
           {stage === EXPIRED ? "Refresh" : "Copy"}
         </ActionButton>
-        <ActionButton tone="light" onClick={actions.reset}>
-          Cancel
+        <ActionButton
+          tone="light"
+          onClick={() => actions.updateSettings({ stage: INPUT })}
+        >
+          Back
         </ActionButton>
       </ModalActions>
     </ModalContent>

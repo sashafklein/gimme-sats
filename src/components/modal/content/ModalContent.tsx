@@ -1,3 +1,4 @@
+import { text } from "node:stream/consumers";
 import styled, { keyframes, StyledComponent } from "styled-components";
 import Button from "../../Button";
 
@@ -101,15 +102,19 @@ export const ModalHeader = namedEl(
   `
 );
 
+const largeText = `
+  font-size: 50px;
+  font-weight: bold;
+`;
+
 export const NumberInput = styled.input`
   padding: 20px;
   border-radius: 10px;
   width: 150px;
-  font-size: 50px;
+  ${largeText}
   max-width: 100%;
   border: none;
   text-align: center;
-  font-weight: bold;
   border: 6px solid transparent;
   border-color: ${({ theme }) => (theme.isDark ? "transparent" : "black")};
 `;
@@ -150,7 +155,19 @@ export const ActionButton = styled(Button)`
   margin: 10px 0;
   min-width: 200px;
   max-width: 100%;
-` as StyledComponent<any, any>;
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+export const LargeText = styled.h1`
+  ${largeText}
+  color: ${({ theme }) => (theme.isDark ? "white" : "black")};
+`;
 
 const rotation = keyframes`
   0% {

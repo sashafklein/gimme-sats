@@ -54,7 +54,6 @@ const GimmeSats = (props: Props) => {
         return (
           <ButtonEl
             tone={tone || "dark"}
-            isDark={tone !== "light"}
             theme={buttonTheme || finalSettings.theme}
             onClick={() => {
               actions.updateSettings({

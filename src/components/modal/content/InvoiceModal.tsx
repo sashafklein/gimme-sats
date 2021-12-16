@@ -3,7 +3,7 @@ import QRCode from "react-qr-code";
 import styled from "styled-components";
 
 import API from "../../../api";
-import { EXPIRED, INPUT } from "../../../const";
+import { EXPIRED, INPUT, PAID } from "../../../const";
 import { Context, Actions, Invoice } from "../../../types";
 import { getSettings } from "../../../utils";
 
@@ -34,10 +34,10 @@ const InvoiceModal = (props: { context: Context; actions: Actions }) => {
   const { context, actions } = props;
   const settings = getSettings(context);
   const { amount, note, stage } = settings;
-  const { invoice } = context;
+  const invoice = context.invoice as Invoice;
   const api = new API(context, actions);
 
-  const { secondsLeft, lnInvoice } = invoice as Invoice;
+  const { secondsLeft, lnInvoice } = invoice;
 
   // TODO: Toggle to Onchain
   const invoiceString = lnInvoice;
@@ -62,12 +62,18 @@ const InvoiceModal = (props: { context: Context; actions: Actions }) => {
 
   return (
     <ModalContent>
-      <ModalHeader>
+      <ModalHeader
+      // Uncomment for header-click shortcut to payment confirmation
+      // onClick={() => actions.updateSettings({ stage: PAID })}
+      >
         <H1>${amount}</H1>
         <P>{note}</P>
       </ModalHeader>
       <ModalBody>
-        <QRWrap>
+        <QRWrap
+        // Uncomment for header-click shortcut to expiry
+        // onClick={() => actions.updateSettings({ stage: EXPIRED })}
+        >
           {stage === EXPIRED ? (
             <Expired />
           ) : (

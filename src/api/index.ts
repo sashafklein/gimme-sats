@@ -75,4 +75,5 @@ class API {
     return api;
   };
 }
+
 export default API;

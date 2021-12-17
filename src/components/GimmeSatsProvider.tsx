@@ -31,83 +31,83 @@ const GimmeSatsProvider = (props: Props) => {
     settings: {},
   } as Context);
 
-  try {
-    const theme = context.settings.theme || context.globalSettings.theme;
-    const missingReqs = THEME_REQUIREMENTS.filter(
-      // @ts-ignore
-      (key) => theme[key] === undefined
-    );
-    if (!theme || missingReqs.length) {
-      throw new Error(
-        `Bad GimmeSats Theme. Does not include all requirements.
+  // try {
+  const theme = context.settings.theme || context.globalSettings.theme;
+  const missingReqs = THEME_REQUIREMENTS.filter(
+    // @ts-ignore
+    (key) => theme[key] === undefined
+  );
+  if (!theme || missingReqs.length) {
+    throw new Error(
+      `Bad GimmeSats Theme. Does not include all requirements.
           Missing: ${missingReqs.join(" ")}`
-      );
-    }
-
-    const updateSettings = (changes = {}) => {
-      log("ACTION - updateSettings");
-      setContext({
-        ...context,
-        settings: {
-          ...context.settings,
-          ...changes,
-        },
-      });
-    };
-
-    const updateInvoice = (changes = {} as Invoice) => {
-      const newContext = {
-        ...context,
-        invoice: {
-          ...(context.invoice || {}),
-          ...changes,
-        },
-      };
-      log("ACTION - updateInvoice");
-      setContext(newContext);
-    };
-
-    const reset = () => {
-      log("ACTION - reset");
-      setContext({
-        globalSettings: context.globalSettings,
-        settings: {},
-      });
-    };
-
-    const update = (context: Context) => {
-      log("ACTION - update");
-      setContext(context);
-    };
-
-    const actions = {
-      updateSettings,
-      updateInvoice,
-      reset,
-      onPayment,
-      update,
-    } as Actions;
-
-    const value = {
-      context,
-      actions,
-    };
-
-    return (
-      <GMSContext.Provider value={value}>
-        <ThemeProvider theme={theme}>
-          <ModalContainer>{children}</ModalContainer>
-        </ThemeProvider>
-      </GMSContext.Provider>
     );
-  } catch (err) {
-    console.log(
-      "Error in GimmeSatsProvider",
-      err,
-      `Settings: ${JSON.stringify(settings, null, 2)}`
-    );
-    return <>{children}</>;
   }
+
+  const updateSettings = (changes = {}) => {
+    log("ACTION - updateSettings");
+    setContext({
+      ...context,
+      settings: {
+        ...context.settings,
+        ...changes,
+      },
+    });
+  };
+
+  const updateInvoice = (changes = {} as Invoice) => {
+    const newContext = {
+      ...context,
+      invoice: {
+        ...(context.invoice || {}),
+        ...changes,
+      },
+    };
+    log("ACTION - updateInvoice");
+    setContext(newContext);
+  };
+
+  const reset = () => {
+    log("ACTION - reset");
+    setContext({
+      globalSettings: context.globalSettings,
+      settings: {},
+    });
+  };
+
+  const update = (context: Context) => {
+    log("ACTION - update");
+    setContext(context);
+  };
+
+  const actions = {
+    updateSettings,
+    updateInvoice,
+    reset,
+    onPayment,
+    update,
+  } as Actions;
+
+  const value = {
+    context,
+    actions,
+  };
+
+  return (
+    <GMSContext.Provider value={value}>
+      <ThemeProvider theme={theme}>
+        <ModalContainer>{children}</ModalContainer>
+      </ThemeProvider>
+    </GMSContext.Provider>
+  );
+  // } catch (err) {
+  //   console.log(
+  //     "Error in GimmeSatsProvider",
+  //     err,
+  //     `Settings: ${JSON.stringify(settings, null, 2)}`
+  //   );
+  //   return <>{children}</>;
+  // }
 };
 
 export default GimmeSatsProvider;

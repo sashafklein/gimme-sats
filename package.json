@@ -33,7 +33,7 @@
     "eject": "react-scripts eject",
     "compile": "webpack --config compile.config.js",
     "prepublish": "npm run compile",
-    "postinstall": "npm run compile",
+    "prepare": "npm run compile",
     "reinstall": "rm -rf node_modules && rm yarn.lock && yarn install"
   },
   "eslintConfig": {

@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   entry: "./src/lib.ts",
-  mode: "production",
+  mode: "development",
   target: "node",
   externals: ["React"],
   output: {

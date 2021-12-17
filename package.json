@@ -1,6 +1,6 @@
 {
   "name": "gimme-sats",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/lib.bundle.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",

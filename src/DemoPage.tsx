@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import GimmeSats, { GimmeSatsJustBolt } from "./components/GimmeSats";
 
-import GMSProvider from "./components/GMSProvider";
+import GimmeSatsProvider from "./components/GimmeSatsProvider";
 import Bolt from "./components/icons/Bolt";
 import Github from "./components/icons/Github";
 import { DARK_BLUE, WHITE, THEMES } from "./const";
@@ -142,7 +142,7 @@ const DemoPage = () => {
   const theme = THEMES[DARK_BLUE];
 
   return (
-    <GMSProvider settings={{ to: "sasha", theme }}>
+    <GimmeSatsProvider settings={{ to: "sasha", theme }}>
       <div>
         <Header>
           <LogoLink href="https://gimmesats.com">
@@ -243,7 +243,7 @@ const DemoPage = () => {
           </Container>
         </LightSection>
       </div>
-    </GMSProvider>
+    </GimmeSatsProvider>
   );
 };
 

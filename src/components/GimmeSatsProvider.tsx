@@ -15,7 +15,7 @@ interface Props {
   onPayment?: Function;
 }
 
-const GMSProvider = (props: Props) => {
+const GimmeSatsProvider = (props: Props) => {
   const { children, settings = {}, onPayment = () => {} } = props;
   const globalSettings = {
     theme: THEMES[DARK_BLUE],
@@ -102,7 +102,7 @@ const GMSProvider = (props: Props) => {
     );
   } catch (err) {
     console.log(
-      "Error in GMSProvider",
+      "Error in GimmeSatsProvider",
       err,
       `Settings: ${JSON.stringify(settings, null, 2)}`
     );
@@ -110,4 +110,4 @@ const GMSProvider = (props: Props) => {
   }
 };
 
-export default GMSProvider;
+export default GimmeSatsProvider;

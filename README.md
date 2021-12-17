@@ -1,6 +1,6 @@
 # Gimme Sats ⚡️
 
-A set of React components and utilities to make accepting Lightning payments in React apps dead simple. The core library consists of a `GMSProvider`, which wraps the application, and a `GimmeSats` button which can then be rendered throughout the app. The latter triggers an interface -- fully themeable and customizable -- for generating a lightning invoice with your favorite service provider and accepting payment.
+A set of React components and utilities to make accepting Lightning payments in React apps dead simple. The core library consists of a `GimmeSatsProvider`, which wraps the application, and a `GimmeSats` button which can then be rendered throughout the app. The latter triggers an interface -- fully themeable and customizable -- for generating a lightning invoice with your favorite service provider and accepting payment.
 
 In two minutes, you can add Lightning tips on your React site.
 
@@ -17,16 +17,16 @@ yarn add gimme-sats
 First, set up the provider, choosing the theme and global service. (Currently, Gimme Sats only works with Strike).
 
 ```jsx
-import { GMSProvider, themes, services } from "gimme-sats";
+import { GimmeSatsProvider, THEMES, SERVICES } from "gimme-sats";
 
-<GMSProvider
-  theme={themes.DARK_BLUE}
-  services={services.STRIKE}
+<GimmeSatsProvider
+  theme={THEMES.DARK_BLUE}
+  service={SERVICES.STRIKE}
   // Here, "to" is the Strike handle
   to="sasha"
 >
   <App />
-</GMSProvider>;
+</GimmeSatsProvider>;
 ```
 
 Then incorporate the GimmeSats button in your app to trigger a payment interface:
@@ -41,24 +41,11 @@ That's it! The `GimmeSats` button, matching the selected theme, will trigger a t
 
 ### Components
 
-#### `GMSProvider`
+#### `GimmeSatsProvider`
 
-A context provider meant to wrap the application. Behind the scenes, `GMSProvider` uses a Redux-like pattern to track context changes (amount, note, theme, etc) and manage the payment flow. This component should be outside of any display components, so that it can overlay a full-page screen and modal on payment triggering.
+A context provider meant to wrap the application. Behind the scenes, `GimmeSatsProvider` uses a Redux-like pattern to track context changes (amount, note, theme, etc) and manage the payment flow. This component should be outside of any display components, so that it can overlay a full-page screen and modal on payment triggering.
 
-```ts
-interface Props {
-  /** The single React component to render within this context. (Your app) */
-  children: ReactChild;
-  /** An object of type ColorTheme. Either a provided theme or a custom object of identical shape. */
-  theme?: ColorTheme;
-  /** One of the acceptable API Service types. (Currently, just Strike). */
-  service: string;
-  /** The unique identifier of the payee in the given service. */
-  to: string;
-  /** Any additional global defaults for a GimmeSats button. */
-  defaults?: Context;
-}
-```
+See up-to-date props in the typescript declarations [in the file](./components/GimmeSatsProvider.tsx).
 
 #### `GimmeSats`
 

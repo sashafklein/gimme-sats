@@ -2,7 +2,7 @@
   "name": "strike-pay",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/main.bundle.js",
+  "main": "dist/lib.bundle.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -32,6 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "compile": "webpack --config compile.config.js",
+    "prepublish": "npm run compile",
     "reinstall": "rm -rf node_modules && rm yarn.lock && yarn install"
   },
   "eslintConfig": {

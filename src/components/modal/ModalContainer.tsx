@@ -73,7 +73,7 @@ const ModalContainer = (props: { children: ReactChild }) => {
                 className="gms__screen"
               >
                 <ModalCard show={show} className="gms__card">
-                  <ErrorBoundary reset={actions.reset}>
+                  <ErrorBoundary actions={actions}>
                     <Content context={context} actions={actions} />
                   </ErrorBoundary>
                 </ModalCard>

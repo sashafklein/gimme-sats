@@ -1,7 +1,6 @@
 {
-  "name": "strike-pay",
+  "name": "gimme-sats",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/lib.bundle.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -33,7 +32,6 @@
     "eject": "react-scripts eject",
     "compile": "webpack --config compile.config.js",
     "prepublish": "npm run compile",
-    "prepare": "npm run compile",
     "reinstall": "rm -rf node_modules && rm yarn.lock && yarn install"
   },
   "eslintConfig": {
